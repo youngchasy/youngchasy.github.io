@@ -1,0 +1,199 @@
+{
+  "brand": "youngchasy & SAINT ANCESTRY",
+  "domain": "youngchasy.site",
+  "backgroundImage": "/assets/images/shapka2.webp",
+  "heroTitle": "моё\nнебольшое\nпортфолио",
+  "heroSubtitle": "ниже расположены примеры по различным направлениям",
+  "heroPrimaryButton": "смотреть работы",
+  "heroSecondaryButton": "связаться",
+  "asideTitle": "если кратко",
+  "asideText": "пишу код, творю музыку, рисую дизайн",
+  "stats": [
+    {
+      "value": "8 лет",
+      "label": "творю музыку"
+    },
+    {
+      "value": "2 года",
+      "label": "дизайню"
+    },
+    {
+      "value": "2 года",
+      "label": "пишу код"
+    }
+  ],
+  "workflowTitle": "если нравятся мои работы",
+  "workflow": [
+    "1. пиши мне",
+    "2. говори что нужно",
+    "3. обсуждаем и делаем",
+    "4. profit"
+  ],
+  "services": [
+    {
+      "icon": "⌘",
+      "title": "код",
+      "description": "питон, джава, хтмл",
+      "points": [
+        "боты и backend-логика",
+        "VPN/прокси-сценарии",
+        "парсинг, API, автоматизация",
+        "простые админ-панели и лендинги"
+      ]
+    },
+    {
+      "icon": "♫",
+      "title": "музыка",
+      "description": "биты/сведение/мастеринг",
+      "points": [
+        "8 лет в FL Studio/Ableton",
+        "большой опыт в сведении и мастеринге"
+      ]
+    },
+    {
+      "icon": "◻",
+      "title": "дизайн",
+      "description": "визуал для личных и коммерческих задач",
+      "points": [
+        "логотипы и айдентика",
+        "мерч и визуальные материалы",
+        "коммерческие предложения",
+        "сайты/презентации и т.д."
+      ]
+    },
+    {
+      "icon": "✦",
+      "title": "и многое другое",
+      "description": "например: оформление дипломов, к/р, рефератов и т.д.",
+      "points": [
+        "структурирование текста",
+        "учебные и деловые материалы",
+        "презентации и визуальная подача",
+        "подготовка к сдаче или защите"
+      ]
+    }
+  ],
+  "portfolioSectionTitle": "мои работы",
+  "portfolioSectionText": "",
+  "portfolioCategories": [
+    "все",
+    "код",
+    "музыка",
+    "дизайн",
+    "оформление",
+    "игры",
+    "прочее"
+  ],
+  "portfolioItems": [
+    {
+      "title": "бот впн-сервис",
+      "category": "код",
+      "description": "создал достаточно функционального бота для покупки СБП (VP*) подписок. можно купить как основную подписку так и прокси подписку",
+      "image": "/assets/images/chasynet_logo.png",
+      "audio": "",
+      "link": "https://t.me/chasynetbot",
+      "linkText": "перейти в бота"
+    },
+    {
+      "title": "пишу биты",
+      "category": "музыка",
+      "description": "можете перейти по ссылке и ознакомиться с моим творчеством. также один из битов можно послушать прям в этой карточке",
+      "image": "/assets/images/avaangel.png",
+      "audio": "https://www.beatstars.com/beat/bleak-destroy-lonely-x-ken-carson-type-beat-20743128",
+      "link": "https://www.beatstars.com/youngchasy",
+      "linkText": "послушать"
+    },
+    {
+      "title": "пример моего дизайна (лого)",
+      "category": "дизайн",
+      "description": "разработка логотипов, айдентики, мерча, брендбуков, коммерческих предложений, презентаций и многое-многое другое",
+      "image": "/assets/images/kosmovibe.png",
+      "audio": "",
+      "link": "#",
+      "linkText": "перейти к альбому"
+    },
+    {
+      "title": "оформление работ различной сложности",
+      "category": "оформление",
+      "description": "оформление работ различной сложности: дипломы, рефераты, курсовые работы, контрольные работы и прочее",
+      "image": "/assets/images/slide.png",
+      "audio": "",
+      "link": "#",
+      "linkText": "открыть пример"
+    },
+    {
+      "title": "создание игровых серверов",
+      "category": "игры",
+      "description": "создание игровых серверов различной сложности в таких играх, как: майнкрафт, самп, гта 5, кс и другие",
+      "image": "",
+      "audio": "",
+      "link": "",
+      "linkText": "пример"
+    },
+    {
+      "title": "прочие работы на заказ",
+      "category": "прочее",
+      "description": "напиши мне и узнай по любой своей просьбе. за вознаграждение сделаю работу любой сложности. всё по договорённости",
+      "image": "",
+      "audio": "",
+      "link": "https://t.me/youngchasy",
+      "linkText": "связаться"
+    }
+  ],
+  "contactTitle": "связь со мной",
+  "contactText": "напиши куда удобно",
+  "socialTitle": "остальные ссылки",
+  "contactButtons": [
+    {
+      "label": "тг",
+      "sublabel": "напиши в мой канал",
+      "href": "https://t.me/youngchasy",
+      "icon": "telegram"
+    },
+    {
+      "label": "вк",
+      "sublabel": "напиши в личку",
+      "href": "https://vk.com/youngchasy",
+      "icon": "vk"
+    },
+    {
+      "label": "инста",
+      "sublabel": "напиши в директ",
+      "href": "https://instagram.com/youngchasy",
+      "icon": "instagram"
+    }
+  ],
+  "socialLinks": [
+    {
+      "label": "битстарс",
+      "sublabel": "биты/купить",
+      "href": "https://beatstars.com/youngchasy",
+      "icon": "beatstars"
+    },
+    {
+      "label": "саундклауд",
+      "sublabel": "экспериментальное творчество",
+      "href": "https://soundcloud.com/youngchasy",
+      "icon": "soundcloud"
+    },
+    {
+      "label": "ютуб",
+      "sublabel": "тоже биты",
+      "href": "https://youtube.com/@youngchasy",
+      "icon": "youtube"
+    },
+    {
+      "label": "твич",
+      "sublabel": "стримы игр и кукапы",
+      "href": "https://twitch.tv/youngchasssy",
+      "icon": "twitch"
+    },
+    {
+      "label": "гитхаб",
+      "sublabel": "програмистов кружок",
+      "href": "https://github.com/youngchasy",
+      "icon": "github"
+    }
+  ],
+  "footerText": "youngchasy © 2026"
+}

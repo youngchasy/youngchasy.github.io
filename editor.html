@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>youngchasy — content editor</title>
+  <style>
+    :root {
+      --bg: #070809;
+      --panel: rgba(255,255,255,.05);
+      --panel-strong: rgba(255,255,255,.08);
+      --text: #f4f4f5;
+      --muted: #a8a8af;
+      --line: rgba(255,255,255,.08);
+      --accent: #8c97c4;
+      --radius: 22px;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --container: 1240px;
+      --transition: 220ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 12%, rgba(140,151,196,.14), transparent 24%),
+        radial-gradient(circle at 82% 8%, rgba(255,255,255,.05), transparent 18%),
+        linear-gradient(180deg, #070809 0%, #040405 100%);
+    }
+
+    .container {
+      width: min(calc(100% - 40px), var(--container));
+      margin: 0 auto;
+      padding: 28px 0 60px;
+    }
+
+    .top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .title h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -.05em;
+    }
+
+    .title p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 66ch;
+      line-height: 1.55;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 18px;
+      padding: 18px;
+    }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    button,
+    .file-button,
+    a.inline-link {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: 16px;
+      cursor: pointer;
+      font: inherit;
+      transition: transform var(--transition), background var(--transition), border-color var(--transition);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button:hover,
+    .file-button:hover,
+    a.inline-link:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.1);
+      border-color: rgba(255,255,255,.16);
+    }
+
+    button.primary {
+      background: linear-gradient(135deg, rgba(140,151,196,.22), rgba(255,255,255,.12));
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    .content {
+      display: grid;
+      gap: 18px;
+    }
+
+    .section {
+      padding: 20px;
+    }
+
+    .section h2 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+      letter-spacing: -.03em;
+    }
+
+    .section > p {
+      margin: 0 0 18px;
+      color: var(--muted);
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field-grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: .92rem;
+      color: var(--muted);
+    }
+
+    .item-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255,255,255,.03);
+      display: grid;
+      gap: 12px;
+    }
+
+    .item-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .item-top strong {
+      font-size: 1rem;
+      letter-spacing: -.02em;
+    }
+
+    .sub-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .small {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .status {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: .92rem;
+      min-height: 1.3em;
+    }
+
+    .hint {
+      margin-top: 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .hint .panel {
+      padding: 14px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .field-grid,
+      .field-grid.three {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top">
+      <div class="title">
+        <h1>Редактор контента</h1>
+        <p>Здесь можно менять тексты верхних блоков, ссылки и описания карточек без правки HTML. Сохраняешь черновик, смотришь предпросмотр и потом экспортируешь <code>content.json</code>.</p>
+      </div>
+      <a class="inline-link" href="./index.html" target="_blank" rel="noreferrer">Открыть сайт</a>
+    </div>
+
+    <div class="grid">
+      <aside class="panel sidebar">
+        <div class="actions">
+          <button class="primary" id="saveDraftBtn">Сохранить черновик</button>
+          <button id="previewBtn">Открыть предпросмотр</button>
+          <button id="downloadBtn">Скачать content.json</button>
+          <label class="file-button" for="importFile">Импортировать content.json</label>
+          <input class="hidden" id="importFile" type="file" accept=".json,application/json" />
+          <button id="resetBtn">Сбросить к шаблону</button>
+        </div>
+
+        <div class="status" id="statusText"></div>
+
+        <div class="hint">
+          <div class="panel">
+            <div class="small">
+              <strong>Как работать:</strong><br />
+              1. Меняешь поля.<br />
+              2. Жмёшь «Сохранить черновик».<br />
+              3. Открываешь предпросмотр.<br />
+              4. Когда всё нравится — скачиваешь <code>content.json</code>.<br />
+              5. Заменяешь им файл в проекте.
+            </div>
+          </div>
+          <div class="panel">
+            <div class="small">
+              Для картинок используй пути вроде <code>./assets/images/work-01.jpg</code>.<br />
+              Для аудио — <code>./assets/audio/beat-01.mp3</code>.<br />
+              Для фоновой картинки можно оставить шаблон или указать свой путь.
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <section class="panel section">
+          <h2>Верхний левый блок</h2>
+          <p>Главный экран слева: заголовок, подзаголовок и фон.</p>
+          <div class="field-grid">
+            <div class="field">
+              <label for="brand">Название</label>
+              <input id="brand" />
+            </div>
+            <div class="field">
+              <label for="domain">Домен</label>
+              <input id="domain" />
+            </div>
+            <div class="field">
+              <label for="heroTitle">Главный заголовок</label>
+              <textarea id="heroTitle"></textarea>
+            </div>
+            <div class="field">
+              <label for="heroSubtitle">Подзаголовок</label>
+              <textarea id="heroSubtitle"></textarea>
+            </div>
+            <div class="field">
+              <label for="heroPrimaryButton">Текст главной кнопки</label>
+              <input id="heroPrimaryButton" />
+            </div>
+            <div class="field">
+              <label for="heroSecondaryButton">Текст второй кнопки</label>
+              <input id="heroSecondaryButton" />
+            </div>
+            <div class="field" style="grid-column: 1 / -1;">
+              <label for="backgroundImage">Фоновая картинка</label>
+              <input id="backgroundImage" />
+            </div>
+          </div>
+        </section>
+
+        <section class="panel section">
+          <h2>Верхний правый блок</h2>
+          <p>Весь контент правой карточки редактируется отсюда.</p>
+          <div class="field-grid">
+            <div class="field">
+              <label for="asideTitle">Заголовок блока</label>
+              <input id="asideTitle" />
+            </div>
+            <div class="field">
+              <label for="workflowTitle">Заголовок списка</label>
+              <input id="workflowTitle" />
+            </div>
+            <div class="field" style="grid-column: 1 / -1;">
+              <label for="asideText">Краткий текст</label>
+              <textarea id="asideText"></textarea>
+            </div>
+          </div>
+
+          <div class="sub-actions">
+            <span class="pill">Статы и список ниже тоже редактируются</span>
+          </div>
+
+          <div class="field-grid three" style="margin-top: 16px;">
+            <div class="field">
+              <label for="stat1Value">Стата 1 — значение</label>
+              <input id="stat1Value" />
+            </div>
+            <div class="field">
+              <label for="stat1Label">Стата 1 — подпись</label>
+              <input id="stat1Label" />
+            </div>
+            <div class="field">
+              <label for="workflow1">Пункт 1</label>
+              <input id="workflow1" />
+            </div>
+
+            <div class="field">
+              <label for="stat2Value">Стата 2 — значение</label>
+              <input id="stat2Value" />
+            </div>
+            <div class="field">
+              <label for="stat2Label">Стата 2 — подпись</label>
+              <input id="stat2Label" />
+            </div>
+            <div class="field">
+              <label for="workflow2">Пункт 2</label>
+              <input id="workflow2" />
+            </div>
+
+            <div class="field">
+              <label for="stat3Value">Стата 3 — значение</label>
+              <input id="stat3Value" />
+            </div>
+            <div class="field">
+              <label for="stat3Label">Стата 3 — подпись</label>
+              <input id="stat3Label" />
+            </div>
+            <div class="field">
+              <label for="workflow3">Пункт 3</label>
+              <input id="workflow3" />
+            </div>
+          </div>
+
+          <div class="field" style="margin-top: 12px;">
+            <label for="workflow4">Пункт 4</label>
+            <input id="workflow4" />
+          </div>
+        </section>
+
+        <section class="panel section">
+          <h2>Контакты</h2>
+          <p>Быстрая связь и основные ссылки.</p>
+          <div class="field-grid">
+            <div class="field">
+              <label for="telegram">Telegram</label>
+              <input id="telegram" />
+            </div>
+            <div class="field">
+              <label for="vk">VK</label>
+              <input id="vk" />
+            </div>
+            <div class="field">
+              <label for="instagram">Instagram</label>
+              <input id="instagram" />
+            </div>
+            <div class="field">
+              <label for="beatstars">BeatStars</label>
+              <input id="beatstars" />
+            </div>
+            <div class="field">
+              <label for="soundcloud">SoundCloud</label>
+              <input id="soundcloud" />
+            </div>
+            <div class="field">
+              <label for="youtube">YouTube</label>
+              <input id="youtube" />
+            </div>
+            <div class="field">
+              <label for="twitch">Twitch</label>
+              <input id="twitch" />
+            </div>
+            <div class="field">
+              <label for="github">GitHub</label>
+              <input id="github" />
+            </div>
+          </div>
+        </section>
+
+        <section class="panel section">
+          <div class="item-top">
+            <div>
+              <h2>Карточки работ</h2>
+              <p>Здесь редактируются заголовки, описания и ссылки каждой плашки.</p>
+            </div>
+            <button id="addPortfolioItemBtn">Добавить карточку</button>
+          </div>
+          <div id="portfolioItemsEditor"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script id="embeddedDefaultContent" type="application/json">{
+  "brand": "youngchasy",
+  "domain": "youngchasy.site",
+  "backgroundImage": "./assets/images/hero-bg.svg",
+  "heroTitle": "Код.\nМузыка.\nДизайн.",
+  "heroSubtitle": "Минималистичное портфолио без перегруза.",
+  "heroPrimaryButton": "Смотреть работы",
+  "heroSecondaryButton": "Связаться",
+  "asideTitle": "Кратко",
+  "asideText": "Делаю код, биты, визуал и цифровые проекты без лишнего шума.",
+  "stats": [
+    {
+      "value": "8+",
+      "label": "лет в музыке"
+    },
+    {
+      "value": "неск.",
+      "label": "лет в дизайне"
+    },
+    {
+      "value": "24/7",
+      "label": "digital mindset"
+    }
+  ],
+  "workflowTitle": "Формат работы",
+  "workflow": [
+    "Коротко обсуждаем задачу",
+    "Собираем материалы",
+    "Делаю чистый результат",
+    "Доводим до финала"
+  ],
+  "services": [
+    {
+      "icon": "⌘",
+      "title": "Программирование",
+      "description": "Python, автоматизация, боты.",
+      "points": [
+        "боты и backend-логика",
+        "VPN / Telegram-сценарии",
+        "парсинг, API, автоматизация",
+        "простые админ-панели и лендинги"
+      ]
+    },
+    {
+      "icon": "♫",
+      "title": "Музыка",
+      "description": "Биты и музыкальные материалы.",
+      "points": [
+        "8 лет в FL Studio",
+        "демо и preview-треки",
+        "музыкальное портфолио",
+        "удобное добавление аудио"
+      ]
+    },
+    {
+      "icon": "◻",
+      "title": "Дизайн",
+      "description": "Визуал для личных и коммерческих задач.",
+      "points": [
+        "логотипы и айдентика",
+        "мерч и визуальные материалы",
+        "коммерческие предложения",
+        "сайты и презентации"
+      ]
+    },
+    {
+      "icon": "✦",
+      "title": "Оформление",
+      "description": "Оформление, редактирование и подача.",
+      "points": [
+        "структурирование текста",
+        "учебные и деловые материалы",
+        "презентации и визуальная подача",
+        "подготовка к сдаче или защите"
+      ]
+    }
+  ],
+  "portfolioSectionTitle": "Подборка кейсов",
+  "portfolioSectionText": "Сайты, визуал, аудио и ссылки — в одном месте.",
+  "portfolioCategories": [
+    "Все",
+    "Программирование",
+    "Музыка",
+    "Дизайн",
+    "Оформление"
+  ],
+  "portfolioItems": [
+    {
+      "title": "VPN bot system",
+      "category": "Программирование",
+      "description": "Карточка проекта на Python.",
+      "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+      "audio": "",
+      "link": "#",
+      "linkText": "Открыть проект"
+    },
+    {
+      "title": "Beat preview #01",
+      "category": "Музыка",
+      "description": "Карточка с аудио и коротким описанием.",
+      "image": "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=80",
+      "audio": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "link": "#",
+      "linkText": "Подробнее"
+    },
+    {
+      "title": "Branding / logo concept",
+      "category": "Дизайн",
+      "description": "Логотип, мерч, презентация или КП.",
+      "image": "https://images.unsplash.com/photo-1523726491678-bf852e717f6a?auto=format&fit=crop&w=1200&q=80",
+      "audio": "",
+      "link": "#",
+      "linkText": "Смотреть кейс"
+    },
+    {
+      "title": "Presentation design",
+      "category": "Оформление",
+      "description": "Оформление проектов и презентаций.",
+      "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
+      "audio": "",
+      "link": "#",
+      "linkText": "Открыть пример"
+    }
+  ],
+  "contactTitle": "Связаться",
+  "contactText": "Напиши в удобную соцсеть.",
+  "socialTitle": "Соцсети и ссылки",
+  "contactButtons": [
+    {
+      "label": "Telegram",
+      "sublabel": "быстрая связь",
+      "href": "https://t.me/your_username",
+      "icon": "telegram"
+    },
+    {
+      "label": "VK",
+      "sublabel": "личные сообщения",
+      "href": "https://vk.com/your_username",
+      "icon": "vk"
+    },
+    {
+      "label": "Instagram",
+      "sublabel": "direct",
+      "href": "https://instagram.com/your_username",
+      "icon": "instagram"
+    }
+  ],
+  "socialLinks": [
+    {
+      "label": "BeatStars",
+      "sublabel": "beats / store",
+      "href": "https://beatstars.com/your_username",
+      "icon": "beatstars"
+    },
+    {
+      "label": "SoundCloud",
+      "sublabel": "audio",
+      "href": "https://soundcloud.com/your_username",
+      "icon": "soundcloud"
+    },
+    {
+      "label": "YouTube",
+      "sublabel": "video / showcase",
+      "href": "https://youtube.com/@your_username",
+      "icon": "youtube"
+    },
+    {
+      "label": "Twitch",
+      "sublabel": "stream",
+      "href": "https://twitch.tv/your_username",
+      "icon": "twitch"
+    },
+    {
+      "label": "GitHub",
+      "sublabel": "code",
+      "href": "https://github.com/your_username",
+      "icon": "github"
+    }
+  ],
+  "footerText": "Минималистичное портфолио без перегруза"
+}</script>
+  <script>
+    const STORAGE_KEY = "youngchasy-portfolio-draft";
+    const statusText = document.getElementById("statusText");
+
+    function setStatus(text) {
+      statusText.textContent = text;
+    }
+
+    function getEmbeddedDefault() {
+      return JSON.parse(document.getElementById("embeddedDefaultContent").textContent);
+    }
+
+    function loadDraftOrDefault() {
+      try {
+        const draft = localStorage.getItem(STORAGE_KEY);
+        if (draft) return JSON.parse(draft);
+      } catch (error) {
+        console.warn(error);
+      }
+      return getEmbeddedDefault();
+    }
+
+    let formData = loadDraftOrDefault();
+
+    function findContact(label) {
+      return (formData.contactButtons || []).find(item => item.label === label)?.href || "";
+    }
+
+    function findSocial(label) {
+      return (formData.socialLinks || []).find(item => item.label === label)?.href || "";
+    }
+
+    function fillBasicFields() {
+      document.getElementById("brand").value = formData.brand || "";
+      document.getElementById("domain").value = formData.domain || "";
+      document.getElementById("backgroundImage").value = formData.backgroundImage || "";
+      document.getElementById("heroTitle").value = formData.heroTitle || "";
+      document.getElementById("heroSubtitle").value = formData.heroSubtitle || "";
+      document.getElementById("heroPrimaryButton").value = formData.heroPrimaryButton || "";
+      document.getElementById("heroSecondaryButton").value = formData.heroSecondaryButton || "";
+      document.getElementById("asideTitle").value = formData.asideTitle || "";
+      document.getElementById("asideText").value = formData.asideText || "";
+      document.getElementById("workflowTitle").value = formData.workflowTitle || "";
+
+      const stats = formData.stats || [];
+      document.getElementById("stat1Value").value = stats[0]?.value || "";
+      document.getElementById("stat1Label").value = stats[0]?.label || "";
+      document.getElementById("stat2Value").value = stats[1]?.value || "";
+      document.getElementById("stat2Label").value = stats[1]?.label || "";
+      document.getElementById("stat3Value").value = stats[2]?.value || "";
+      document.getElementById("stat3Label").value = stats[2]?.label || "";
+
+      const workflow = formData.workflow || [];
+      document.getElementById("workflow1").value = workflow[0] || "";
+      document.getElementById("workflow2").value = workflow[1] || "";
+      document.getElementById("workflow3").value = workflow[2] || "";
+      document.getElementById("workflow4").value = workflow[3] || "";
+
+      document.getElementById("telegram").value = findContact("Telegram");
+      document.getElementById("vk").value = findContact("VK");
+      document.getElementById("instagram").value = findContact("Instagram");
+      document.getElementById("beatstars").value = findSocial("BeatStars");
+      document.getElementById("soundcloud").value = findSocial("SoundCloud");
+      document.getElementById("youtube").value = findSocial("YouTube");
+      document.getElementById("twitch").value = findSocial("Twitch");
+      document.getElementById("github").value = findSocial("GitHub");
+    }
+
+    function createPortfolioItemTemplate(item, index) {
+      return `
+        <article class="item-card" data-index="${index}">
+          <div class="item-top">
+            <strong>Карточка #${index + 1}</strong>
+            <button type="button" data-action="remove">Удалить</button>
+          </div>
+
+          <div class="field-grid">
+            <div class="field">
+              <label>Заголовок</label>
+              <input data-field="title" value="${item.title || ""}" />
+            </div>
+            <div class="field">
+              <label>Категория</label>
+              <input data-field="category" value="${item.category || ""}" />
+            </div>
+            <div class="field">
+              <label>Текст кнопки</label>
+              <input data-field="linkText" value="${item.linkText || ""}" />
+            </div>
+            <div class="field">
+              <label>Ссылка</label>
+              <input data-field="link" value="${item.link || ""}" />
+            </div>
+            <div class="field">
+              <label>Картинка</label>
+              <input data-field="image" value="${item.image || ""}" />
+            </div>
+            <div class="field">
+              <label>Аудио</label>
+              <input data-field="audio" value="${item.audio || ""}" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Описание</label>
+            <textarea data-field="description">${item.description || ""}</textarea>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderPortfolioEditor() {
+      const container = document.getElementById("portfolioItemsEditor");
+      container.innerHTML = (formData.portfolioItems || []).map((item, index) => createPortfolioItemTemplate(item, index)).join("");
+
+      container.querySelectorAll(".item-card").forEach(card => {
+        const index = Number(card.dataset.index);
+
+        card.querySelectorAll("[data-field]").forEach(field => {
+          field.addEventListener("input", event => {
+            formData.portfolioItems[index][event.target.dataset.field] = event.target.value;
+          });
+        });
+
+        card.querySelector('[data-action="remove"]').addEventListener("click", () => {
+          formData.portfolioItems.splice(index, 1);
+          rebuildCategoriesFromItems();
+          renderPortfolioEditor();
+        });
+      });
+    }
+
+    function rebuildCategoriesFromItems() {
+      const categories = ["Все"];
+      (formData.portfolioItems || []).forEach(item => {
+        const category = (item.category || "").trim();
+        if (category && !categories.includes(category)) categories.push(category);
+      });
+      formData.portfolioCategories = categories;
+    }
+
+    function syncFromFields() {
+      formData.brand = document.getElementById("brand").value.trim();
+      formData.domain = document.getElementById("domain").value.trim();
+      formData.backgroundImage = document.getElementById("backgroundImage").value.trim();
+      formData.heroTitle = document.getElementById("heroTitle").value;
+      formData.heroSubtitle = document.getElementById("heroSubtitle").value.trim();
+      formData.heroPrimaryButton = document.getElementById("heroPrimaryButton").value.trim();
+      formData.heroSecondaryButton = document.getElementById("heroSecondaryButton").value.trim();
+      formData.asideTitle = document.getElementById("asideTitle").value.trim();
+      formData.asideText = document.getElementById("asideText").value.trim();
+      formData.workflowTitle = document.getElementById("workflowTitle").value.trim();
+
+      formData.stats = [
+        { value: document.getElementById("stat1Value").value.trim(), label: document.getElementById("stat1Label").value.trim() },
+        { value: document.getElementById("stat2Value").value.trim(), label: document.getElementById("stat2Label").value.trim() },
+        { value: document.getElementById("stat3Value").value.trim(), label: document.getElementById("stat3Label").value.trim() }
+      ].filter(item => item.value || item.label);
+
+      formData.workflow = [
+        document.getElementById("workflow1").value.trim(),
+        document.getElementById("workflow2").value.trim(),
+        document.getElementById("workflow3").value.trim(),
+        document.getElementById("workflow4").value.trim()
+      ].filter(Boolean);
+
+      formData.contactButtons = [
+        { label: "Telegram", sublabel: "быстрая связь", href: document.getElementById("telegram").value.trim(), icon: "telegram" },
+        { label: "VK", sublabel: "личные сообщения", href: document.getElementById("vk").value.trim(), icon: "vk" },
+        { label: "Instagram", sublabel: "direct", href: document.getElementById("instagram").value.trim(), icon: "instagram" }
+      ].filter(item => item.href);
+
+      formData.socialLinks = [
+        { label: "BeatStars", sublabel: "beats / store", href: document.getElementById("beatstars").value.trim(), icon: "beatstars" },
+        { label: "SoundCloud", sublabel: "audio", href: document.getElementById("soundcloud").value.trim(), icon: "soundcloud" },
+        { label: "YouTube", sublabel: "video / showcase", href: document.getElementById("youtube").value.trim(), icon: "youtube" },
+        { label: "Twitch", sublabel: "stream", href: document.getElementById("twitch").value.trim(), icon: "twitch" },
+        { label: "GitHub", sublabel: "code", href: document.getElementById("github").value.trim(), icon: "github" }
+      ].filter(item => item.href);
+
+      rebuildCategoriesFromItems();
+    }
+
+    function saveDraft() {
+      syncFromFields();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+      setStatus("Черновик сохранён в браузере.");
+    }
+
+    function downloadJSON() {
+      syncFromFields();
+      const blob = new Blob([JSON.stringify(formData, null, 2)], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "content.json";
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus("Файл content.json скачан.");
+    }
+
+    function importJSON(file) {
+      const reader = new FileReader();
+      reader.onload = event => {
+        try {
+          formData = JSON.parse(event.target.result);
+          rebuildCategoriesFromItems();
+          fillBasicFields();
+          renderPortfolioEditor();
+          saveDraft();
+          setStatus("Файл импортирован.");
+        } catch (error) {
+          setStatus("Не удалось прочитать JSON.");
+        }
+      };
+      reader.readAsText(file, "utf-8");
+    }
+
+    document.getElementById("saveDraftBtn").addEventListener("click", saveDraft);
+    document.getElementById("downloadBtn").addEventListener("click", downloadJSON);
+    document.getElementById("previewBtn").addEventListener("click", () => {
+      saveDraft();
+      window.open("./index.html?draft=1", "_blank", "noopener,noreferrer");
+    });
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      formData = getEmbeddedDefault();
+      fillBasicFields();
+      renderPortfolioEditor();
+      saveDraft();
+      setStatus("Возвращено к шаблону.");
+    });
+    document.getElementById("importFile").addEventListener("change", event => {
+      const file = event.target.files?.[0];
+      if (file) importJSON(file);
+    });
+    document.getElementById("addPortfolioItemBtn").addEventListener("click", () => {
+      formData.portfolioItems.push({
+        title: "Новая работа",
+        category: "Дизайн",
+        description: "Короткое описание.",
+        image: "",
+        audio: "",
+        link: "",
+        linkText: "Открыть"
+      });
+      rebuildCategoriesFromItems();
+      renderPortfolioEditor();
+      setStatus("Новая карточка добавлена.");
+    });
+
+    fillBasicFields();
+    renderPortfolioEditor();
+    setStatus("Готово к редактированию.");
+  </script>
+</body>
+</html>

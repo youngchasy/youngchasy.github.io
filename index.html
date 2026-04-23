@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>youngchasy — portfolio</title>
+  <meta name="description" content="Минималистичное портфолио: программирование, музыка, дизайн и оформление проектов." />
+  <style>
+    :root {
+      --bg: #060708;
+      --bg-soft: rgba(255,255,255,0.045);
+      --panel: rgba(17, 18, 23, 0.72);
+      --panel-strong: rgba(21, 22, 28, 0.84);
+      --text: #f5f5f6;
+      --muted: #a8a8af;
+      --line: rgba(255,255,255,0.08);
+      --accent: #8c97c4;
+      --accent-soft: rgba(140,151,196,0.14);
+      --shadow: 0 20px 40px rgba(0,0,0,.34);
+      --radius-xl: 30px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --container: 1220px;
+      --transition: 260ms cubic-bezier(.2,.8,.2,1);
+      --bg-image: url('/assets/images/hero-bg.svg');
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #070809 0%, #050506 60%, #020202 100%);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    .page-bg {
+      position: fixed;
+      inset: -6%;
+      z-index: -2;
+      background-image:
+        linear-gradient(180deg, rgba(5,6,8,0.12) 0%, rgba(6,7,8,0.48) 42%, rgba(3,3,4,0.86) 76%, rgba(2,2,2,0.98) 100%),
+        linear-gradient(90deg, rgba(4,4,5,0.14) 0%, rgba(4,4,5,0.24) 100%),
+        var(--bg-image);
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      transform: translate3d(0, 0, 0) scale(1.08);
+      will-change: transform;
+      filter: saturate(.9) brightness(.74);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 76px 76px;
+      mask-image: radial-gradient(circle at center, black 48%, transparent 100%);
+      opacity: .36;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(calc(100% - 40px), var(--container));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(12px);
+      background: rgba(6,7,8,0.32);
+      border-bottom: 1px solid transparent;
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    .topbar.scrolled {
+      background: rgba(6,7,8,0.52);
+      border-color: rgba(255,255,255,0.06);
+    }
+
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: lowercase;
+    }
+
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(140,151,196,.95));
+      box-shadow: 0 0 30px rgba(140,151,196,.35);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a,
+    .button,
+    .chip,
+    .small-button {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
+    }
+
+    .nav-links a {
+      padding: 10px 14px;
+      font-size: .92rem;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover,
+    .chip:hover,
+    .chip.active,
+    .button:hover,
+    .small-button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 10px 18px rgba(0,0,0,.16);
+      color: var(--text);
+    }
+
+    .hero {
+      padding: 34px 0 30px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(340px, .82fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero-card,
+    .hero-side-card,
+    .service-card,
+    .case-card,
+    .contact-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(180deg, rgba(18,19,24,0.76) 0%, rgba(12,13,16,0.7) 100%);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-card::after,
+    .hero-side-card::after,
+    .service-card::after,
+    .case-card::after,
+    .contact-card::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: -120px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(140,151,196,.18), transparent 70%);
+      filter: blur(18px);
+      pointer-events: none;
+    }
+
+    .hero-card {
+      min-height: min(76vh, 720px);
+      padding: clamp(26px, 4vw, 50px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .hero-side-card {
+      padding: clamp(24px, 3vw, 34px);
+      display: grid;
+      align-content: start;
+      gap: 20px;
+      min-height: min(76vh, 720px);
+    }
+
+    h1, h2, h3, p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(3.3rem, 9vw, 6.7rem);
+      line-height: .9;
+      letter-spacing: -.07em;
+      max-width: 7.2ch;
+      text-wrap: balance;
+      white-space: pre-line;
+    }
+
+    .hero-subtitle {
+      margin-top: 20px;
+      max-width: 28ch;
+      font-size: clamp(1rem, 1.6vw, 1.15rem);
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 20px;
+      font-size: .98rem;
+      cursor: pointer;
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, rgba(140,151,196,.22), rgba(255,255,255,.12));
+      border-color: rgba(160,170,210,.18);
+    }
+
+    .aside-title {
+      font-size: clamp(1.4rem, 2vw, 1.8rem);
+      letter-spacing: -.04em;
+    }
+
+    .aside-text {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 34ch;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 18px 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.035);
+      min-height: 110px;
+      display: grid;
+      align-content: start;
+      gap: 6px;
+    }
+
+    .stat strong {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .workflow-block {
+      margin-top: 6px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding-top: 18px;
+    }
+
+    .workflow-block h3,
+    .section-head h2,
+    .service-card h3,
+    .contact-card h3 {
+      font-size: clamp(1.12rem, 1.7vw, 1.32rem);
+      letter-spacing: -.03em;
+    }
+
+    .mini-list,
+    .service-list {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .mini-list li,
+    .service-list li {
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .mini-list li::before,
+    .service-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .7em;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.46);
+    }
+
+    section {
+      padding: 30px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .section-head p {
+      max-width: 40ch;
+      color: var(--muted);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .service-card {
+      padding: 22px;
+      transition: transform var(--transition), background var(--transition), border-color var(--transition);
+    }
+
+    .service-card:hover,
+    .case-card:hover,
+    .contact-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(22,23,28,0.82), rgba(14,15,18,0.78));
+    }
+
+    .service-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .service-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      flex: 0 0 auto;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .portfolio-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .chip {
+      padding: 10px 14px;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .case-card {
+      padding: 18px;
+      transition: transform var(--transition), background var(--transition), border-color var(--transition);
+    }
+
+    .case-preview {
+      aspect-ratio: 16 / 10;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      margin-bottom: 14px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+    }
+
+    .case-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+	  object-position: center center;
+    }
+
+    .case-meta {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .case-title {
+      font-size: 1.02rem;
+      letter-spacing: -.03em;
+    }
+
+    .case-category {
+      color: var(--muted);
+      font-size: .86rem;
+    }
+
+    .case-audio {
+      width: 100%;
+      margin-top: 14px;
+      opacity: .92;
+    }
+
+    .case-link {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+      font-size: .95rem;
+    }
+
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .contact-card {
+      padding: 24px;
+      transition: transform var(--transition), background var(--transition), border-color var(--transition);
+    }
+
+    .contact-links,
+    .social-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .social-button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 72px;
+      padding: 14px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .social-button:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(140,151,196,.08));
+      border-color: rgba(255,255,255,.14);
+      box-shadow: 0 14px 28px rgba(0,0,0,.24);
+    }
+
+    .social-button-main {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .social-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+    }
+
+    .social-labels {
+      min-width: 0;
+      display: block;
+    }
+
+    .social-label {
+      display: block;
+      font-size: .96rem;
+      letter-spacing: -.02em;
+    }
+
+    .social-sub {
+      display: block;
+      margin-top: 2px;
+      font-size: .82rem;
+      color: var(--muted);
+    }
+
+    .social-arrow {
+      color: var(--muted);
+      transition: transform var(--transition), color var(--transition);
+    }
+
+    .social-button:hover .social-arrow {
+      transform: translateX(2px);
+      color: var(--text);
+    }
+
+    footer {
+      padding: 20px 0 34px;
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 18px;
+    }
+
+    .draft-badge {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 40;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(8,9,10,.82);
+      backdrop-filter: blur(10px);
+      color: var(--text);
+      box-shadow: var(--shadow);
+    }
+
+    .draft-badge.visible {
+      display: inline-flex;
+    }
+
+    .small-button {
+      padding: 10px 14px;
+      color: var(--muted);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 680ms ease, transform 680ms ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1120px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card,
+      .hero-side-card {
+        min-height: unset;
+      }
+
+      .cases-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(calc(100% - 24px), var(--container));
+      }
+
+      .nav {
+        min-height: unset;
+        padding: 14px 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 2px;
+      }
+
+      .nav-links a {
+        white-space: nowrap;
+      }
+
+      .hero {
+        padding-top: 18px;
+      }
+
+      .hero-card,
+      .hero-side-card,
+      .service-card,
+      .case-card,
+      .contact-card {
+        border-radius: 24px;
+      }
+
+      .hero-card,
+      .hero-side-card {
+        padding: 22px 20px;
+      }
+
+      .service-card,
+      .case-card,
+      .contact-card {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      h1 {
+        font-size: clamp(2.95rem, 16vw, 4.4rem);
+        max-width: none;
+      }
+
+      .hero-actions {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .stat:last-child {
+        grid-column: span 2;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .section-head p {
+        max-width: none;
+      }
+
+      .services-grid,
+      .cases-grid,
+      .contacts-grid,
+      .contact-links,
+      .social-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .draft-badge {
+        right: 12px;
+        left: 12px;
+        bottom: 12px;
+        justify-content: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .page-bg,
+      .reveal,
+      .nav-links a,
+      .button,
+      .chip,
+      .social-button {
+        transition: none !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-bg" id="pageBg"></div>
+
+  <header class="topbar" id="topbar">
+    <div class="container nav">
+      <a class="brand" href="#home" id="brandName"><span class="brand-dot"></span><span>youngchasy</span></a>
+      <nav class="nav-links">
+        <a href="#services">услуги</a>
+        <a href="#portfolio">портфолио</a>
+        <a href="#contact">контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <article class="hero-card reveal">
+          <div>
+            <h1 id="heroTitle"></h1>
+            <p class="hero-subtitle" id="heroSubtitle"></p>
+            <div class="hero-actions">
+              <a class="button primary" href="#portfolio" id="heroPrimaryButton"></a>
+              <a class="button" href="#contact" id="heroSecondaryButton"></a>
+            </div>
+          </div>
+        </article>
+
+        <aside class="hero-side-card reveal">
+          <div>
+            <h2 class="aside-title" id="asideTitle"></h2>
+            <p class="aside-text" id="asideText"></p>
+          </div>
+
+          <div class="stats" id="stats"></div>
+
+          <div class="workflow-block">
+            <h3 id="workflowTitle"></h3>
+            <ul class="mini-list" id="workflowList"></ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2>основные направления</h2>
+          </div>
+          <p></p>
+        </div>
+        <div class="services-grid" id="servicesGrid"></div>
+      </div>
+    </section>
+
+    <section id="portfolio">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2 id="portfolioSectionTitle"></h2>
+          </div>
+          <p id="portfolioSectionText"></p>
+        </div>
+
+        <div class="portfolio-controls reveal" id="portfolioControls"></div>
+        <div class="cases-grid" id="casesGrid"></div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container contacts-grid">
+        <article class="contact-card reveal">
+          <h3 id="contactTitle"></h3>
+          <p class="muted" id="contactText"></p>
+          <div class="contact-links" id="contactButtons"></div>
+        </article>
+
+        <article class="contact-card reveal">
+          <h3 id="socialTitle"></h3>
+          <div class="social-grid" id="socialLinks"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <span id="footerName"></span>
+      <span id="footerText"></span>
+    </div>
+  </footer>
+
+  <div class="draft-badge" id="draftBadge">
+    <span>Включён предпросмотр черновика</span>
+    <a class="small-button" href="./editor.html">Открыть редактор</a>
+  </div>
+
+  <script id="embeddedDefaultContent" type="application/json">{
+  "brand": "youngchasy",
+  "domain": "youngchasy.site",
+  "backgroundImage": "/assets/images/hero-bg.svg",
+  "heroTitle": "Код.\nМузыка.\nДизайн.",
+  "heroSubtitle": "Минималистичное портфолио без перегруза.",
+  "heroPrimaryButton": "Смотреть работы",
+  "heroSecondaryButton": "Связаться",
+  "asideTitle": "Кратко",
+  "asideText": "Делаю код, биты, визуал и цифровые проекты без лишнего шума.",
+  "stats": [
+    {
+      "value": "8+",
+      "label": "лет в музыке"
+    },
+    {
+      "value": "неск.",
+      "label": "лет в дизайне"
+    },
+    {
+      "value": "24/7",
+      "label": "digital mindset"
+    }
+  ],
+  "workflowTitle": "Формат работы",
+  "workflow": [
+    "Коротко обсуждаем задачу",
+    "Собираем материалы",
+    "Делаю чистый результат",
+    "Доводим до финала"
+  ],
+  "services": [
+    {
+      "icon": "⌘",
+      "title": "код",
+      "description": "питон, джава, хтмл",
+      "points": [
+        "боты и backend-логика",
+        "VPN/прокси-сценарии",
+        "парсинг, API, автоматизация",
+        "простые админ-панели и лендинги"
+      ]
+    },
+    {
+      "icon": "♫",
+      "title": "музыка",
+      "description": "биты/сведение/мастеринг",
+      "points": [
+        "8 лет в FL Studio/Ableton",
+        "большой опыт в сведении и мастеринге"
+      ]
+    },
+    {
+      "icon": "◻",
+      "title": "дизайн",
+      "description": "визуал для личных и коммерческих задач",
+      "points": [
+        "логотипы и айдентика",
+        "мерч и визуальные материалы",
+        "коммерческие предложения",
+        "сайты/презентации и т.д."
+      ]
+    },
+    {
+      "icon": "✦",
+      "title": "и многое другое",
+      "description": "например: оформление дипломов, к/р, рефератов и т.д.",
+      "points": [
+        "структурирование текста",
+        "учебные и деловые материалы",
+        "презентации и визуальная подача",
+        "подготовка к сдаче или защите"
+      ]
+    }
+  ],
+  "portfolioSectionTitle": "мои работы",
+  "portfolioSectionText": "",
+  "portfolioCategories": [
+    "все",
+    "Программирование",
+    "Музыка",
+    "Дизайн",
+    "Оформление"
+  ],
+  "portfolioItems": [
+    {
+      "title": "VPN bot system",
+      "category": "Программирование",
+      "description": "Карточка проекта на Python.",
+      "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+      "audio": "",
+      "link": "#",
+      "linkText": "Открыть проект"
+    },
+    {
+      "title": "Beat preview #01",
+      "category": "Музыка",
+      "description": "Карточка с аудио и коротким описанием.",
+      "image": "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=80",
+      "audio": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "link": "#",
+      "linkText": "Подробнее"
+    },
+    {
+      "title": "Branding / logo concept",
+      "category": "Дизайн",
+      "description": "Логотип, мерч, презентация или КП.",
+      "image": "https://images.unsplash.com/photo-1523726491678-bf852e717f6a?auto=format&fit=crop&w=1200&q=80",
+      "audio": "",
+      "link": "#",
+      "linkText": "Смотреть кейс"
+    },
+    {
+      "title": "Presentation design",
+      "category": "Оформление",
+      "description": "Оформление проектов и презентаций.",
+      "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
+      "audio": "",
+      "link": "#",
+      "linkText": "Открыть пример"
+    }
+  ],
+  "contactTitle": "связь со мной",
+  "contactText": "напиши куда удобно",
+  "socialTitle": "Соцсети и ссылки",
+  "contactButtons": [
+    {
+      "label": "тг",
+      "sublabel": "напиши в мой канал",
+      "href": "https://t.me/your_username",
+      "icon": "telegram"
+    },
+    {
+      "label": "вк",
+      "sublabel": "напиши в личку",
+      "href": "https://vk.com/your_username",
+      "icon": "vk"
+    },
+    {
+      "label": "инста",
+      "sublabel": "напиши в директ",
+      "href": "https://instagram.com/your_username",
+      "icon": "instagram"
+    }
+  ],
+  "socialLinks": [
+    {
+      "label": "битстарс",
+      "sublabel": "биты/купить",
+      "href": "https://beatstars.com/your_username",
+      "icon": "beatstars"
+    },
+    {
+      "label": "саундклауд",
+      "sublabel": "экспериментальное творчество",
+      "href": "https://soundcloud.com/your_username",
+      "icon": "soundcloud"
+    },
+    {
+      "label": "ютуб",
+      "sublabel": "тоже биты",
+      "href": "https://youtube.com/@your_username",
+      "icon": "youtube"
+    },
+    {
+      "label": "твич",
+      "sublabel": "стримы игр и кукапы",
+      "href": "https://twitch.tv/your_username",
+      "icon": "twitch"
+    },
+    {
+      "label": "гитхаб",
+      "sublabel": "програмистов кружок",
+      "href": "https://github.com/your_username",
+      "icon": "github"
+    }
+  ],
+  "footerText": "youngchasy © 2026"
+}</script>
+  <script>
+    const STORAGE_KEY = "youngchasy-portfolio-draft";
+    const DRAFT_PARAM = new URLSearchParams(window.location.search).get("draft");
+    const pageBg = document.getElementById("pageBg");
+    const topbar = document.getElementById("topbar");
+
+    const icons = {
+      telegram: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 3.5 2.9 10.7c-.9.4-.9 1.6.1 1.9l4.5 1.4 1.7 5c.3.9 1.5 1 2 .2l2.5-3.4 4.7 3.6c.7.5 1.6.1 1.7-.8l1.8-13.1c.2-1.2-1-2.1-2.1-1.7Z"/><path d="m7.8 13.7 10.7-8.2"/></svg>`,
+      vk: `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3.5 5.8c.1 5.8 3 12.4 8.3 12.4h.3v-3.7c2 .2 3.4 1.5 4 3.7H19c-.8-2.8-2.7-4.4-3.9-5 .9-.6 2.7-2 3-4.5h-2.7c-.5 2-2.2 3.4-3.7 3.6V5.8h-2.7v6.8c-1.5-.4-3.4-1.9-3.5-6.8H3.5Z"/></svg>`,
+      instagram: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>`,
+      beatstars: `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.8 3.8 7.2v9.6L12 21.2l8.2-4.4V7.2L12 2.8Zm0 2.2 5.9 3.1L12 11.2 6.1 8.1 12 5Zm-6 5 4.9 2.6v5.5L6 15.5V10Zm7 8.1v-5.5l4.9-2.6v5.5L13 18.1Z"/></svg>`,
+      soundcloud: `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M9.3 9.4a4.3 4.3 0 0 1 8.1 1.8A3.3 3.3 0 1 1 18 18H6.1a2.6 2.6 0 0 1-.4-5.2 3.9 3.9 0 0 1 3.6-3.4Z"/></svg>`,
+      youtube: `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M21.2 7.3c-.2-.9-.9-1.6-1.8-1.8C17.8 5 12 5 12 5s-5.8 0-7.4.5c-.9.2-1.6.9-1.8 1.8C2.3 8.9 2.3 12 2.3 12s0 3.1.5 4.7c.2.9.9 1.6 1.8 1.8 1.6.5 7.4.5 7.4.5s5.8 0 7.4-.5c.9-.2 1.6-.9 1.8-1.8.5-1.6.5-4.7.5-4.7s0-3.1-.5-4.7ZM10.2 15.7V8.3l6 3.7-6 3.7Z"/></svg>`,
+      twitch: `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M5 3h15v10.3l-4 4h-3.2L10 20H7v-2.7H5V3Zm2.2 2.2v9.8h3.4v2l2-2h3l2.2-2.2V5.2H7.2Zm6 2h2v4h-2v-4Zm-4 0h2v4h-2v-4Z"/></svg>`,
+      github: `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.8a9.2 9.2 0 0 0-2.9 17.9c.5.1.7-.2.7-.5v-1.8c-3 .6-3.6-1.3-3.6-1.3-.5-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.6 1 1.6 1 .9 1.5 2.5 1.1 3.1.8.1-.7.4-1.1.7-1.4-2.4-.3-4.9-1.2-4.9-5.2 0-1.1.4-2.1 1-2.8-.1-.3-.4-1.4.1-2.8 0 0 .8-.3 2.9 1.1a9.9 9.9 0 0 1 5.2 0c2-1.4 2.8-1.1 2.8-1.1.6 1.4.3 2.5.2 2.8.7.8 1 1.7 1 2.8 0 4-2.5 4.9-4.9 5.2.4.3.8 1 .8 2v2.9c0 .3.2.6.7.5A9.2 9.2 0 0 0 12 2.8Z"/></svg>`
+    };
+
+    function getEmbeddedDefault() {
+      return JSON.parse(document.getElementById("embeddedDefaultContent").textContent);
+    }
+
+    async function loadContent() {
+      const embedded = getEmbeddedDefault();
+
+      if (DRAFT_PARAM === "1") {
+        try {
+          const draft = localStorage.getItem(STORAGE_KEY);
+          if (draft) {
+            document.getElementById("draftBadge").classList.add("visible");
+            return JSON.parse(draft);
+          }
+        } catch (error) {
+          console.warn("Draft load error:", error);
+        }
+      }
+
+      try {
+        const response = await fetch("./content.json", { cache: "no-store" });
+        if (!response.ok) throw new Error("content.json not found");
+        return await response.json();
+      } catch (error) {
+        console.warn("Using embedded content fallback:", error);
+        return embedded;
+      }
+    }
+
+    function fillText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value || "";
+    }
+
+    function renderContacts(container, items) {
+      container.innerHTML = (items || []).map(item => `
+        <a class="social-button" href="${item.href || '#'}" target="_blank" rel="noreferrer">
+          <span class="social-button-main">
+            <span class="social-icon">${icons[item.icon] || ""}</span>
+            <span class="social-labels">
+              <span class="social-label">${item.label || ""}</span>
+              <span class="social-sub">${item.sublabel || ""}</span>
+            </span>
+          </span>
+          <span class="social-arrow">↗</span>
+        </a>
+      `).join("");
+    }
+
+    function renderServices(data) {
+      const servicesGrid = document.getElementById("servicesGrid");
+      servicesGrid.innerHTML = (data.services || []).map(service => `
+        <article class="service-card reveal">
+          <div class="service-top">
+            <div>
+              <h3>${service.title || ""}</h3>
+              <p class="muted">${service.description || ""}</p>
+            </div>
+            <div class="service-icon">${service.icon || "•"}</div>
+          </div>
+          <ul class="service-list">
+            ${(service.points || []).map(point => `<li>${point}</li>`).join("")}
+          </ul>
+        </article>
+      `).join("");
+    }
+
+    let activeCategory = "Все";
+    let siteData = null;
+
+    function renderPortfolioControls() {
+      const portfolioControls = document.getElementById("portfolioControls");
+      portfolioControls.innerHTML = (siteData.portfolioCategories || []).map(category => `
+        <button class="chip ${category === activeCategory ? "active" : ""}" data-category="${category}">
+          ${category}
+        </button>
+      `).join("");
+
+      portfolioControls.querySelectorAll(".chip").forEach(button => {
+        button.addEventListener("click", () => {
+          activeCategory = button.dataset.category;
+          renderPortfolioControls();
+          renderPortfolioItems();
+        });
+      });
+    }
+
+    function renderPortfolioItems() {
+      const casesGrid = document.getElementById("casesGrid");
+      const allItems = siteData.portfolioItems || [];
+      const items = activeCategory === "Все" ? allItems : allItems.filter(item => item.category === activeCategory);
+
+      casesGrid.innerHTML = items.map(item => `
+        <article class="case-card reveal">
+          <div class="case-preview">
+            ${item.image ? `<img src="${item.image}" alt="${item.title || ""}" loading="lazy" />` : `<span>Без превью</span>`}
+          </div>
+          <div class="case-meta">
+            <div>
+              <div class="case-title">${item.title || ""}</div>
+              <div class="case-category">${item.category || ""}</div>
+            </div>
+          </div>
+          <p class="muted">${item.description || ""}</p>
+          ${item.audio ? `<audio class="case-audio" controls preload="none" src="${item.audio}"></audio>` : ""}
+          ${item.link ? `<a class="case-link" href="${item.link}" target="_blank" rel="noreferrer">${item.linkText || "Открыть"}</a>` : ""}
+        </article>
+      `).join("");
+
+      observeReveal();
+    }
+
+    function observeReveal() {
+      const elements = document.querySelectorAll(".reveal:not(.visible)");
+      if (!elements.length) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      elements.forEach(el => observer.observe(el));
+    }
+
+    function setupTopbar() {
+      const handleScroll = () => {
+        topbar.classList.toggle("scrolled", window.scrollY > 16);
+      };
+      handleScroll();
+      window.addEventListener("scroll", handleScroll, { passive: true });
+    }
+
+    function setupParallax() {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || window.innerWidth <= 720) return;
+
+      let ticking = false;
+      const update = () => {
+        const y = window.scrollY * -0.08;
+        pageBg.style.transform = `translate3d(0, ${y}px, 0) scale(1.08)`;
+        ticking = false;
+      };
+
+      const onScroll = () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      };
+
+      update();
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
+
+    function renderAll(data) {
+      siteData = data;
+      document.documentElement.style.setProperty("--bg-image", `url('${data.backgroundImage || "/assets/images/hero-bg.svg"}')`);
+
+      document.querySelector("#brandName span:last-child").textContent = data.brand || "youngchasy";
+      fillText("footerName", data.domain || "youngchasy.site");
+      fillText("footerText", data.footerText || "");
+      fillText("heroTitle", data.heroTitle);
+      fillText("heroSubtitle", data.heroSubtitle);
+      fillText("heroPrimaryButton", data.heroPrimaryButton || "Смотреть работы");
+      fillText("heroSecondaryButton", data.heroSecondaryButton || "Связаться");
+      fillText("asideTitle", data.asideTitle || "Кратко");
+      fillText("asideText", data.asideText || "");
+      fillText("workflowTitle", data.workflowTitle || "");
+      fillText("portfolioSectionTitle", data.portfolioSectionTitle || "");
+      fillText("portfolioSectionText", data.portfolioSectionText || "");
+      fillText("contactTitle", data.contactTitle || "");
+      fillText("contactText", data.contactText || "");
+      fillText("socialTitle", data.socialTitle || "");
+
+      document.getElementById("stats").innerHTML = (data.stats || []).map(item => `
+        <div class="stat">
+          <strong>${item.value || ""}</strong>
+          <span>${item.label || ""}</span>
+        </div>
+      `).join("");
+
+      document.getElementById("workflowList").innerHTML = (data.workflow || []).map(item => `<li>${item}</li>`).join("");
+
+      renderServices(data);
+      renderContacts(document.getElementById("contactButtons"), data.contactButtons || []);
+      renderContacts(document.getElementById("socialLinks"), data.socialLinks || []);
+      renderPortfolioControls();
+      renderPortfolioItems();
+      observeReveal();
+      setupTopbar();
+      setupParallax();
+    }
+
+    loadContent().then(renderAll);
+  </script>
+</body>
+</html>
