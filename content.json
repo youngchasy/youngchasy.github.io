@@ -98,8 +98,8 @@
       "title": "пишу биты",
       "category": "музыка",
       "description": "можете перейти по ссылке и ознакомиться с моим творчеством. также один из битов можно послушать прям в этой карточке",
-      "image": "/assets/images/avaangel.png",
-      "audio": "https://www.beatstars.com/beat/bleak-destroy-lonely-x-ken-carson-type-beat-20743128",
+      "image": "/assets/images/avaangel.webp",
+      "audio": "/assets/audio/bleak_with_tags.mp3",
       "link": "https://www.beatstars.com/youngchasy",
       "linkText": "послушать"
     },
@@ -107,7 +107,7 @@
       "title": "пример моего дизайна (лого)",
       "category": "дизайн",
       "description": "разработка логотипов, айдентики, мерча, брендбуков, коммерческих предложений, презентаций и многое-многое другое",
-      "image": "/assets/images/kosmovibe.png",
+      "image": "/assets/images/kosmovibe.webp",
       "audio": "",
       "link": "#",
       "linkText": "перейти к альбому"
@@ -116,28 +116,28 @@
       "title": "оформление работ различной сложности",
       "category": "оформление",
       "description": "оформление работ различной сложности: дипломы, рефераты, курсовые работы, контрольные работы и прочее",
-      "image": "/assets/images/slide.png",
+      "image": "/assets/images/screenkursach.webp",
       "audio": "",
-      "link": "#",
-      "linkText": "открыть пример"
+      "link": "https://t.me/youngchasy",
+      "linkText": "свяжись со мной для уточнений"
     },
     {
       "title": "создание игровых серверов",
       "category": "игры",
       "description": "создание игровых серверов различной сложности в таких играх, как: майнкрафт, самп, гта 5, кс и другие",
-      "image": "",
+      "image": "/assets/images/gamescreen.webp",
       "audio": "",
-      "link": "",
-      "linkText": "пример"
+      "link": "https://t.me/youngchasy",
+      "linkText": "свяжись со мной для уточнений"
     },
     {
       "title": "прочие работы на заказ",
       "category": "прочее",
       "description": "напиши мне и узнай по любой своей просьбе. за вознаграждение сделаю работу любой сложности. всё по договорённости",
-      "image": "",
+      "image": "/assets/images/handshake.webp",
       "audio": "",
       "link": "https://t.me/youngchasy",
-      "linkText": "связаться"
+      "linkText": "написать мне"
     }
   ],
   "contactTitle": "связь со мной",
