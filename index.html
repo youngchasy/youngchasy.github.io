@@ -1,577 +1,935 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>youngchasy — portfolio</title>
-  <meta name="description" content="Минималистичное портфолио: программирование, музыка, дизайн и оформление проектов." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>youngchasy — портфолио</title>
+  <meta name="description" content="портфолио youngchasy">
+  <meta name="theme-color" content="#090a0c">
+  <meta property="og:title" content="youngchasy — портфолио">
+  <meta property="og:description" content="различные направления работы">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@500;600&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg: #060708;
-      --bg-soft: rgba(255,255,255,0.045);
-      --panel: rgba(17, 18, 23, 0.72);
-      --panel-strong: rgba(21, 22, 28, 0.84);
-      --text: #f5f5f6;
-      --muted: #a8a8af;
-      --line: rgba(255,255,255,0.08);
-      --accent: #8c97c4;
-      --accent-soft: rgba(140,151,196,0.14);
-      --shadow: 0 20px 40px rgba(0,0,0,.34);
-      --radius-xl: 30px;
-      --radius-lg: 24px;
-      --radius-md: 18px;
-      --container: 1220px;
-      --transition: 260ms cubic-bezier(.2,.8,.2,1);
-      --bg-image: url('/assets/images/hero-bg.svg');
+      --bg: #090a0c;
+      --surface: #101114;
+      --surface-soft: #15171b;
+      --text: #f4f5ef;
+      --muted: #91949b;
+      --accent: #c8ff4d;
+      --accent-deep: #9ed329;
+      --violet: #7557ff;
+      --line: rgba(244, 245, 239, 0.11);
+      --line-strong: rgba(244, 245, 239, 0.22);
+      --container: 1180px;
+      --radius: 26px;
+      --ease: cubic-bezier(.16, 1, .3, 1);
+      --font-display: "Unbounded", ui-sans-serif, system-ui, sans-serif;
+      --font-body: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --hero-image: none;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 100px;
+    }
+
     body {
       margin: 0;
+      min-width: 320px;
       min-height: 100vh;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
-      background: linear-gradient(180deg, #070809 0%, #050506 60%, #020202 100%);
+      background:
+        radial-gradient(circle at 78% -10%, rgba(117, 87, 255, .12), transparent 32rem),
+        var(--bg);
+      font-family: var(--font-body);
       line-height: 1.5;
       overflow-x: hidden;
-    }
-
-    .page-bg {
-      position: fixed;
-      inset: -6%;
-      z-index: -2;
-      background-image:
-        linear-gradient(180deg, rgba(5,6,8,0.12) 0%, rgba(6,7,8,0.48) 42%, rgba(3,3,4,0.86) 76%, rgba(2,2,2,0.98) 100%),
-        linear-gradient(90deg, rgba(4,4,5,0.14) 0%, rgba(4,4,5,0.24) 100%),
-        var(--bg-image);
-      background-size: cover;
-      background-position: center top;
-      background-repeat: no-repeat;
-      transform: translate3d(0, 0, 0) scale(1.08);
-      will-change: transform;
-      filter: saturate(.9) brightness(.74);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      z-index: -1;
+      z-index: 20;
       pointer-events: none;
-      background:
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 76px 76px;
-      mask-image: radial-gradient(circle at center, black 48%, transparent 100%);
-      opacity: .36;
+      opacity: .035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
     }
+
+    ::selection { color: #0a0b0c; background: var(--accent); }
 
     a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    img { display: block; max-width: 100%; }
+    h1, h2, h3, p, ul { margin: 0; }
+    button, a { -webkit-tap-highlight-color: transparent; }
 
     .container {
-      width: min(calc(100% - 40px), var(--container));
-      margin: 0 auto;
+      width: min(calc(100% - 48px), var(--container));
+      margin-inline: auto;
     }
+
+    .ambient {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .ambient::before,
+    .ambient::after {
+      content: "";
+      position: absolute;
+      width: 34rem;
+      height: 34rem;
+      border-radius: 50%;
+      filter: blur(110px);
+      opacity: .08;
+      animation: ambientFloat 16s ease-in-out infinite alternate;
+    }
+
+    .ambient::before {
+      top: 18%;
+      left: -20rem;
+      background: var(--accent);
+    }
+
+    .ambient::after {
+      right: -18rem;
+      bottom: 4%;
+      background: var(--violet);
+      animation-delay: -7s;
+    }
+
+    @keyframes ambientFloat {
+      to { transform: translate3d(4rem, -3rem, 0) scale(1.12); }
+    }
+
+    .cursor-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 30rem;
+      height: 30rem;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(circle, rgba(200, 255, 77, .055), transparent 66%);
+      transform: translate3d(calc(var(--pointer-x, -40rem) - 50%), calc(var(--pointer-y, -40rem) - 50%), 0);
+      transition: opacity .4s ease;
+    }
+
+    body.pointer-active .cursor-glow { opacity: 1; }
 
     .topbar {
-      position: sticky;
-      top: 0;
+      position: fixed;
+      inset: 0 0 auto;
       z-index: 30;
-      backdrop-filter: blur(12px);
-      background: rgba(6,7,8,0.32);
-      border-bottom: 1px solid transparent;
-      transition: background var(--transition), border-color var(--transition);
+      padding: 14px 0;
+      transition: padding .35s var(--ease);
     }
 
-    .topbar.scrolled {
-      background: rgba(6,7,8,0.52);
-      border-color: rgba(255,255,255,0.06);
-    }
+    .topbar.scrolled { padding-top: 8px; }
 
-    .nav {
-      min-height: 74px;
+    .nav-shell {
+      min-height: 62px;
+      padding: 0 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
+      gap: 20px;
+      border: 1px solid transparent;
+      border-radius: 18px;
+      transition: background .35s ease, border-color .35s ease, box-shadow .35s ease;
+    }
+
+    .topbar.scrolled .nav-shell {
+      border-color: var(--line);
+      background: rgba(12, 13, 16, .78);
+      box-shadow: 0 16px 44px rgba(0, 0, 0, .2);
+      backdrop-filter: blur(18px) saturate(130%);
+      -webkit-backdrop-filter: blur(18px) saturate(130%);
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      font-size: 1rem;
+      gap: 11px;
       font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: lowercase;
+      font-size: .92rem;
+      letter-spacing: -.03em;
     }
 
-    .brand-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(140,151,196,.95));
-      box-shadow: 0 0 30px rgba(140,151,196,.35);
+    .brand-mark {
+      position: relative;
+      width: 18px;
+      height: 18px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
     }
 
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      top: 6px;
+      left: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 14px var(--accent);
+      animation: markPulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes markPulse {
+      50% { transform: scale(1.8); opacity: .55; }
+    }
+
+    .nav-right,
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
     }
 
-    .nav-links a,
-    .button,
-    .chip,
-    .small-button {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      color: var(--text);
-      transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
-    }
+    .nav-right { gap: clamp(18px, 3vw, 42px); }
+    .nav-links { gap: 4px; }
 
     .nav-links a {
-      padding: 10px 14px;
-      font-size: .92rem;
+      position: relative;
+      padding: 10px 12px;
       color: var(--muted);
+      font-size: .84rem;
+      transition: color .25s ease;
     }
 
-    .nav-links a:hover,
-    .chip:hover,
-    .chip.active,
-    .button:hover,
-    .small-button:hover {
-      transform: translateY(-1px);
-      border-color: rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.08);
-      box-shadow: 0 10px 18px rgba(0,0,0,.16);
-      color: var(--text);
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      right: 12px;
+      bottom: 6px;
+      left: 12px;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .35s var(--ease);
+    }
+
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+    .availability {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: .76rem;
+      white-space: nowrap;
+    }
+
+    .availability::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(200, 255, 77, .1);
     }
 
     .hero {
-      padding: 34px 0 30px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(340px, .82fr);
-      gap: 24px;
-      align-items: stretch;
-    }
-
-    .hero-card,
-    .hero-side-card,
-    .service-card,
-    .case-card,
-    .contact-card {
       position: relative;
+      min-height: 100svh;
+      padding: clamp(132px, 15vh, 176px) 0 82px;
+      display: flex;
+      align-items: center;
       overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      background:
-        linear-gradient(180deg, rgba(18,19,24,0.76) 0%, rgba(12,13,16,0.7) 100%);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
     }
 
-    .hero-card::after,
-    .hero-side-card::after,
-    .service-card::after,
-    .case-card::after,
-    .contact-card::after {
+    .hero-art {
+      position: absolute;
+      top: -8%;
+      right: -4%;
+      z-index: -1;
+      width: min(52vw, 760px);
+      aspect-ratio: 1;
+      opacity: .16;
+      background-image:
+        linear-gradient(135deg, transparent 20%, var(--bg) 86%),
+        var(--hero-image);
+      background-position: center;
+      background-size: cover;
+      border-radius: 50%;
+      filter: grayscale(1) contrast(1.15);
+      mask-image: radial-gradient(circle at center, #000 30%, transparent 72%);
+      -webkit-mask-image: radial-gradient(circle at center, #000 30%, transparent 72%);
+      transform: translate3d(0, var(--hero-shift, 0), 0);
+      will-change: transform;
+    }
+
+    .hero-art::after {
       content: "";
       position: absolute;
-      right: -80px;
-      bottom: -120px;
-      width: 300px;
-      height: 300px;
+      inset: 18%;
+      border: 1px solid rgba(200, 255, 77, .45);
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(140,151,196,.18), transparent 70%);
-      filter: blur(18px);
-      pointer-events: none;
+      animation: ringSpin 18s linear infinite;
     }
 
-    .hero-card {
-      min-height: min(76vh, 720px);
-      padding: clamp(26px, 4vw, 50px);
+    @keyframes ringSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .hero-inner { position: relative; width: 100%; }
+
+    .hero-topline {
+      margin-bottom: clamp(24px, 4vh, 44px);
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      color: var(--muted);
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
     }
 
-    .hero-side-card {
-      padding: clamp(24px, 3vw, 34px);
+    .hero-topline span:first-child {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-topline span:first-child::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .hero-title {
+      width: 100%;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(4rem, 10.5vw, 9.25rem);
+      line-height: .88;
+      letter-spacing: -.075em;
+      text-transform: uppercase;
+    }
+
+    .title-line {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .title-line:nth-child(2) { margin-left: clamp(20px, 9vw, 128px); }
+    .title-line:nth-child(3) { margin-left: clamp(0px, 2.5vw, 34px); color: var(--accent); }
+    .title-line:nth-child(1) { --line-index: 0; }
+    .title-line:nth-child(2) { --line-index: 1; }
+    .title-line:nth-child(3) { --line-index: 2; }
+    .title-line:nth-child(4) { --line-index: 3; }
+
+    .title-word {
+      display: block;
+      padding: .08em .05em .08em 0;
+      transform: translateY(115%) rotate(1deg);
+      transform-origin: left bottom;
+    }
+
+    body.ready .title-word {
+      animation: titleIn 1.05s var(--ease) forwards;
+      animation-delay: calc(80ms + var(--line-index, 0) * 105ms);
+    }
+
+    @keyframes titleIn {
+      to { transform: translateY(0) rotate(0); }
+    }
+
+    .hero-bottom {
+      --delay: 380ms;
+      width: min(100%, 940px);
+      margin: 0 auto;
+      padding-top: clamp(34px, 5vw, 54px);
       display: grid;
-      align-content: start;
-      gap: 20px;
-      min-height: min(76vh, 720px);
+      justify-items: center;
+      gap: clamp(38px, 6vw, 58px);
+      text-align: center;
+      border-top: 1px solid var(--line);
     }
 
-    h1, h2, h3, p {
-      margin: 0;
+    .hero-details {
+      position: relative;
+      padding: clamp(62px, 8vw, 94px) 0 clamp(104px, 12vw, 152px);
     }
 
-    h1 {
-      font-size: clamp(3.3rem, 9vw, 6.7rem);
-      line-height: .9;
-      letter-spacing: -.07em;
-      max-width: 7.2ch;
-      text-wrap: balance;
-      white-space: pre-line;
+    .hero-copy {
+      display: grid;
+      justify-items: center;
+      gap: 22px;
     }
 
     .hero-subtitle {
-      margin-top: 20px;
-      max-width: 28ch;
-      font-size: clamp(1rem, 1.6vw, 1.15rem);
-      color: var(--muted);
+      max-width: 44ch;
+      color: #c6c8c5;
+      font-size: clamp(1rem, 1.45vw, 1.18rem);
+      line-height: 1.65;
+      letter-spacing: -.02em;
     }
 
     .hero-actions {
-      margin-top: 28px;
       display: flex;
+      justify-content: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
     }
 
     .button {
+      --mx: 0px;
+      --my: 0px;
+      min-height: 52px;
+      padding: 0 20px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      padding: 14px 20px;
-      font-size: .98rem;
-      cursor: pointer;
+      gap: 18px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      font-size: .87rem;
+      font-weight: 600;
+      transform: translate(var(--mx), var(--my));
+      transition: color .3s ease, background .3s ease, border-color .3s ease, transform .3s var(--ease);
     }
+
+    .button .arrow { transition: transform .35s var(--ease); }
+    .button:hover .arrow { transform: translate(3px, -3px); }
 
     .button.primary {
-      background: linear-gradient(135deg, rgba(140,151,196,.22), rgba(255,255,255,.12));
-      border-color: rgba(160,170,210,.18);
+      color: #0a0b0c;
+      border-color: var(--accent);
+      background: var(--accent);
     }
 
-    .aside-title {
-      font-size: clamp(1.4rem, 2vw, 1.8rem);
-      letter-spacing: -.04em;
-    }
+    .button.primary:hover { background: #dcff8b; }
+    .button.secondary:hover { color: var(--accent); border-color: rgba(200, 255, 77, .5); }
 
-    .aside-text {
-      color: var(--muted);
-      font-size: 1rem;
-      max-width: 34ch;
-    }
-
-    .stats {
+    .hero-stats {
+      width: min(100%, 620px);
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .hero-stats:empty { display: none; }
 
     .stat {
-      padding: 18px 16px;
-      border-radius: 22px;
-      border: 1px solid rgba(255,255,255,.06);
-      background: rgba(255,255,255,.035);
-      min-height: 110px;
-      display: grid;
-      align-content: start;
-      gap: 6px;
+      min-height: 0;
+      padding: 4px clamp(22px, 4vw, 48px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: transparent;
+      border-left: 1px solid var(--line);
     }
 
+    .stat:first-child { border-left: 0; }
+
     .stat strong {
-      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.45rem, 3vw, 2.4rem);
+      letter-spacing: -.07em;
       line-height: 1;
-      letter-spacing: -.04em;
     }
 
     .stat span {
       color: var(--muted);
-      font-size: .95rem;
+      font-size: .76rem;
+      line-height: 1.45;
     }
 
-    .workflow-block {
-      margin-top: 6px;
-      border-top: 1px solid rgba(255,255,255,.06);
-      padding-top: 18px;
+    .scroll-note {
+      position: absolute;
+      right: 0;
+      bottom: -28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
     }
 
-    .workflow-block h3,
-    .section-head h2,
-    .service-card h3,
-    .contact-card h3 {
-      font-size: clamp(1.12rem, 1.7vw, 1.32rem);
+    .scroll-note::after {
+      content: "";
+      width: 38px;
+      height: 1px;
+      background: var(--line-strong);
+      animation: scrollLine 1.8s ease-in-out infinite;
+      transform-origin: left;
+    }
+
+    @keyframes scrollLine {
+      0%, 100% { transform: scaleX(.3); opacity: .4; }
+      50% { transform: scaleX(1); opacity: 1; }
+    }
+
+    .section {
+      position: relative;
+      padding: clamp(96px, 12vw, 158px) 0;
+    }
+
+    .section + .section { border-top: 1px solid var(--line); }
+    .hero-details + .section { border-top: 1px solid var(--line); }
+
+    .section-layout {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: clamp(34px, 5vw, 66px);
+    }
+
+    .section-kicker {
+      padding-top: 9px;
+      color: var(--muted);
+      font-size: .94rem;
+      font-weight: 600;
+      line-height: 1.4;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .section-kicker strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 500;
       letter-spacing: -.03em;
     }
 
-    .mini-list,
-    .service-list {
-      margin: 14px 0 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 10px;
-      color: var(--muted);
+    .section-heading {
+      max-width: 12ch;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(2.2rem, 4.5vw, 4.3rem);
+      line-height: 1;
+      letter-spacing: -.065em;
+      text-transform: uppercase;
     }
 
-    .mini-list li,
-    .service-list li {
+    .services-list { margin-top: clamp(38px, 5vw, 60px); }
+
+    .service-row {
       position: relative;
-      padding-left: 18px;
+      min-height: 108px;
+      padding: 27px 2px;
+      display: grid;
+      grid-template-columns: minmax(170px, .72fr) minmax(240px, 1.28fr) 24px;
+      align-items: center;
+      gap: clamp(20px, 4vw, 52px);
+      border-top: 1px solid var(--line);
+      overflow: hidden;
+      transition: border-color .35s ease;
     }
 
-    .mini-list li::before,
-    .service-list li::before {
+    .service-row:last-child { border-bottom: 1px solid var(--line); }
+
+    .service-row::before {
       content: "";
       position: absolute;
+      right: 0;
+      bottom: 0;
       left: 0;
-      top: .7em;
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.46);
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .55s var(--ease);
     }
 
-    section {
-      padding: 30px 0;
+    .service-row:hover::before { transform: scaleX(1); }
+
+    .service-index {
+      display: none;
     }
 
-    .section-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 22px;
+    .service-title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.2rem, 2vw, 1.7rem);
+      letter-spacing: -.04em;
+      text-transform: lowercase;
+      transition: color .3s ease, transform .45s var(--ease);
     }
 
-    .section-head p {
-      max-width: 40ch;
+    .service-description {
+      max-width: 38ch;
       color: var(--muted);
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .service-card {
-      padding: 22px;
-      transition: transform var(--transition), background var(--transition), border-color var(--transition);
-    }
-
-    .service-card:hover,
-    .case-card:hover,
-    .contact-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255,255,255,.14);
-      background: linear-gradient(180deg, rgba(22,23,28,0.82), rgba(14,15,18,0.78));
-    }
-
-    .service-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 10px;
+      font-size: .94rem;
     }
 
     .service-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
+      width: auto;
+      height: auto;
       display: grid;
       place-items: center;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-      flex: 0 0 auto;
-    }
-
-    .muted {
-      color: var(--muted);
-    }
-
-    .portfolio-controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .chip {
-      padding: 10px 14px;
-      cursor: pointer;
+      justify-self: end;
+      border: 0;
       color: var(--muted);
       font-size: .92rem;
+      opacity: .72;
+      transition: color .35s ease, opacity .35s ease, transform .45s var(--ease);
     }
 
-    .cases-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
+    .service-row:hover .service-title { color: var(--accent); transform: translateX(7px); }
+
+    .service-row:hover .service-icon {
+      color: var(--accent);
+      opacity: 1;
+      transform: rotate(12deg) scale(1.08);
     }
 
-    .case-card {
-      padding: 18px;
-      transition: transform var(--transition), background var(--transition), border-color var(--transition);
+    .portfolio-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
     }
 
-    .case-preview {
-      aspect-ratio: 16 / 10;
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.03);
-      margin-bottom: 14px;
-      display: grid;
-      place-items: center;
+    .portfolio-copy {
+      max-width: 38ch;
       color: var(--muted);
+      font-size: .94rem;
     }
 
-    .case-preview img {
+    .filters {
+      margin-top: 42px;
+      padding-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .filter-button {
+      padding: 9px 13px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-size: .78rem;
+      cursor: pointer;
+      transition: color .25s ease, background .25s ease, border-color .25s ease;
+    }
+
+    .filter-button:hover { color: var(--text); }
+
+    .filter-button.active {
+      color: var(--text);
+      border-color: var(--line-strong);
+      background: rgba(244, 245, 239, .055);
+    }
+
+    .projects-grid {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: clamp(18px, 2.4vw, 32px) 18px;
+    }
+
+    .project-card { grid-column: span 6; min-width: 0; }
+    .project-card:nth-child(4n + 1) { grid-column: span 7; }
+    .project-card:nth-child(4n + 2) { grid-column: span 5; }
+
+    .project-media {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 68% 22%, rgba(200, 255, 77, .16), transparent 30%),
+        linear-gradient(145deg, #17191e, #0e0f12);
+      isolation: isolate;
+    }
+
+    .project-card:nth-child(4n + 2) .project-media { aspect-ratio: 4 / 3; }
+
+    .project-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(180deg, rgba(7, 8, 10, .02), rgba(7, 8, 10, .32));
+      pointer-events: none;
+    }
+
+    .project-media img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-	  object-position: center center;
+      filter: saturate(.72) contrast(1.02);
+      transform: scale(1.015);
+      transition: transform .9s var(--ease), filter .55s ease;
     }
 
-    .case-meta {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 8px;
+    .project-card:hover .project-media img {
+      filter: saturate(1) contrast(1.02);
+      transform: scale(1.07);
     }
 
-    .case-title {
-      font-size: 1.02rem;
-      letter-spacing: -.03em;
+    .project-number,
+    .project-category {
+      position: absolute;
+      z-index: 2;
+      top: 16px;
+      padding: 7px 10px;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 999px;
+      background: rgba(9, 10, 12, .54);
+      color: rgba(255, 255, 255, .84);
+      font-size: .68rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
-    .case-category {
-      color: var(--muted);
-      font-size: .86rem;
-    }
+    .project-number { left: 16px; }
+    .project-category { right: 16px; }
 
-    .case-audio {
-      width: 100%;
-      margin-top: 14px;
-      opacity: .92;
-    }
-
-    .case-link {
-      margin-top: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--text);
-      font-size: .95rem;
-    }
-
-    .contacts-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .contact-card {
-      padding: 24px;
-      transition: transform var(--transition), background var(--transition), border-color var(--transition);
-    }
-
-    .contact-links,
-    .social-grid {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .social-button {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      min-height: 72px;
-      padding: 14px 16px;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-      transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
-    }
-
-    .social-button:hover {
-      transform: translateY(-2px);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(140,151,196,.08));
-      border-color: rgba(255,255,255,.14);
-      box-shadow: 0 14px 28px rgba(0,0,0,.24);
-    }
-
-    .social-button-main {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-width: 0;
-    }
-
-    .social-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
+    .project-fallback {
+      position: absolute;
+      inset: 0;
       display: grid;
       place-items: center;
-      flex: 0 0 auto;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.04);
+      color: rgba(244, 245, 239, .16);
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 9vw, 7rem);
+      letter-spacing: -.08em;
+      text-transform: uppercase;
     }
 
-    .social-labels {
-      min-width: 0;
-      display: block;
+    .project-meta {
+      padding: 18px 2px 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: start;
     }
 
-    .social-label {
-      display: block;
-      font-size: .96rem;
-      letter-spacing: -.02em;
+    .project-title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+      line-height: 1.25;
+      letter-spacing: -.04em;
     }
 
-    .social-sub {
-      display: block;
-      margin-top: 2px;
-      font-size: .82rem;
+    .project-description {
+      margin-top: 7px;
+      max-width: 48ch;
       color: var(--muted);
+      font-size: .83rem;
     }
 
-    .social-arrow {
+    .project-arrow {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
       color: var(--muted);
-      transition: transform var(--transition), color var(--transition);
+      transition: color .3s ease, border-color .3s ease, background .3s ease, transform .4s var(--ease);
     }
 
-    .social-button:hover .social-arrow {
-      transform: translateX(2px);
+    a.project-arrow:hover,
+    .project-card:hover .project-arrow {
+      color: #0a0b0c;
+      border-color: var(--accent);
+      background: var(--accent);
+      transform: translate(2px, -2px);
+    }
+
+    span.project-arrow { opacity: .5; }
+
+    .audio-button {
+      margin-top: 14px;
+      padding: 8px 12px 8px 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-size: .74rem;
+      cursor: pointer;
+      transition: color .25s ease, border-color .25s ease;
+    }
+
+    .audio-button:hover,
+    .audio-button.playing { color: var(--text); border-color: rgba(200, 255, 77, .45); }
+
+    .audio-icon {
+      width: 25px;
+      height: 25px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #0a0b0c;
+      background: var(--accent);
+      font-size: .64rem;
+    }
+
+    .audio-button.playing .audio-icon { animation: audioPulse 1.1s ease-in-out infinite; }
+
+    @keyframes audioPulse {
+      50% { box-shadow: 0 0 0 5px rgba(200, 255, 77, .12); }
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 70px 0;
+      color: var(--muted);
+      text-align: center;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .contact-section { padding-bottom: 34px; }
+
+    .contact-panel {
+      position: relative;
+      padding: clamp(32px, 6vw, 78px);
+      overflow: hidden;
+      border-radius: clamp(24px, 4vw, 42px);
+      color: #0b0c0d;
+      background: var(--accent);
+      isolation: isolate;
+    }
+
+    .contact-panel::before {
+      content: "";
+      position: absolute;
+      right: -8%;
+      bottom: -70%;
+      z-index: -1;
+      width: 48%;
+      aspect-ratio: 1;
+      border: 1px solid rgba(9, 10, 12, .18);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 46px rgba(9, 10, 12, .035),
+        0 0 0 92px rgba(9, 10, 12, .025);
+      transition: transform 1s var(--ease);
+    }
+
+    .contact-panel:hover::before { transform: scale(1.1) translate(-4%, -4%); }
+
+    .contact-kicker {
+      margin-bottom: clamp(28px, 5vw, 62px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      font-size: .7rem;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .contact-kicker span:last-child { opacity: .58; }
+
+    .contact-title {
+      max-width: 10ch;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(2.6rem, 7.5vw, 7rem);
+      line-height: .95;
+      letter-spacing: -.075em;
+      text-transform: uppercase;
+    }
+
+    .contact-text {
+      margin-top: 22px;
+      max-width: 42ch;
+      color: rgba(9, 10, 12, .68);
+      font-size: clamp(.95rem, 1.3vw, 1.08rem);
+    }
+
+    .contact-links {
+      margin-top: clamp(36px, 6vw, 72px);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .contact-link {
+      min-height: 49px;
+      padding: 0 17px;
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      border: 1px solid rgba(9, 10, 12, .22);
+      border-radius: 999px;
+      font-size: .8rem;
+      font-weight: 600;
+      transition: color .3s ease, background .3s ease, transform .35s var(--ease);
+    }
+
+    .contact-link svg { width: 16px; height: 16px; }
+
+    .contact-link:hover {
       color: var(--text);
+      background: #0b0c0d;
+      transform: translateY(-3px);
     }
 
-    footer {
-      padding: 20px 0 34px;
-    }
+    .contact-link .link-arrow { margin-left: 4px; opacity: .52; }
+
+    .footer { padding: 28px 0 38px; }
 
     .footer-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 20px;
       color: var(--muted);
-      border-top: 1px solid rgba(255,255,255,.08);
-      padding-top: 18px;
+      font-size: .74rem;
     }
+
+    .footer-brand { color: var(--text); font-weight: 600; }
+
+    .back-to-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color .25s ease;
+    }
+
+    .back-to-top:hover { color: var(--accent); }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .8s var(--ease), transform .8s var(--ease);
+      transition-delay: var(--delay, 0ms);
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
     .draft-badge {
       position: fixed;
@@ -580,460 +938,316 @@
       z-index: 40;
       display: none;
       align-items: center;
-      gap: 10px;
-      padding: 12px 14px;
+      gap: 12px;
+      padding: 11px 12px 11px 15px;
+      border: 1px solid var(--line-strong);
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(8,9,10,.82);
-      backdrop-filter: blur(10px);
-      color: var(--text);
-      box-shadow: var(--shadow);
-    }
-
-    .draft-badge.visible {
-      display: inline-flex;
-    }
-
-    .small-button {
-      padding: 10px 14px;
+      background: rgba(12, 13, 16, .88);
       color: var(--muted);
+      font-size: .74rem;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, .32);
+      backdrop-filter: blur(16px);
     }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 680ms ease, transform 680ms ease;
+    .draft-badge.visible { display: flex; }
+
+    .draft-badge a {
+      padding: 7px 11px;
+      border-radius: 999px;
+      color: #0a0b0c;
+      background: var(--accent);
+      font-weight: 600;
     }
 
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
+    @media (max-width: 980px) {
+      .hero-bottom { grid-template-columns: 1fr; }
+      .hero-copy { grid-template-columns: 1fr; align-items: center; }
+      .hero-actions { justify-content: center; }
+      .section-layout { grid-template-columns: 130px minmax(0, 1fr); }
+      .project-card,
+      .project-card:nth-child(4n + 1),
+      .project-card:nth-child(4n + 2) { grid-column: span 6; }
+      .project-card:nth-child(4n + 2) .project-media { aspect-ratio: 16 / 10; }
     }
 
-    @media (max-width: 1120px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 760px) {
+      .container { width: min(calc(100% - 28px), var(--container)); }
+      .topbar { padding-top: 8px; }
+      .nav-shell { min-height: 56px; padding: 0 13px; }
+      .availability { display: none; }
+      .nav-links a { padding-inline: 8px; font-size: .78rem; }
+      .nav-links a:first-child { display: none; }
 
-      .hero-card,
-      .hero-side-card {
-        min-height: unset;
-      }
+      .hero { min-height: 88svh; padding: 128px 0 72px; }
+      .hero-title { font-size: clamp(2.25rem, 11.6vw, 6.5rem); }
+      .title-line:nth-child(2) { margin-left: 5vw; }
+      .title-line:nth-child(3) { margin-left: 0; }
+      .hero-art { top: 2%; right: -36%; width: 94vw; opacity: .12; }
+      .hero-details { padding: 42px 0 88px; }
+      .hero-bottom { padding-top: 32px; gap: 36px; }
+      .hero-copy { grid-template-columns: 1fr; }
+      .hero-actions { justify-content: center; }
+      .stat { min-height: 0; padding-inline: 14px; }
+      .stat strong { font-size: clamp(1.15rem, 5vw, 1.55rem); }
+      .stat span { font-size: .65rem; }
 
-      .cases-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+      .section { padding-block: 90px; }
+      .section-layout { grid-template-columns: 1fr; gap: 26px; }
+      .section-kicker { padding-top: 0; display: flex; align-items: center; gap: 9px; font-size: .8rem; }
+      .section-kicker strong { margin: 0; }
+      .section-heading { font-size: clamp(2.1rem, 11vw, 3.6rem); }
+
+      .services-list { margin-top: 42px; }
+      .service-row {
+        min-height: 112px;
+        padding: 24px 2px;
+        grid-template-columns: minmax(0, 1fr) 24px;
+        gap: 8px 18px;
       }
+      .service-title { grid-column: 1; grid-row: 1; }
+      .service-description { grid-column: 1; grid-row: 2; padding-right: 18px; }
+      .service-icon { grid-column: 2; grid-row: 1 / 3; }
+
+      .portfolio-head { align-items: flex-start; flex-direction: column; }
+      .filters { margin-top: 30px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+      .filters::-webkit-scrollbar { display: none; }
+      .filter-button { flex: 0 0 auto; }
+      .project-card,
+      .project-card:nth-child(4n + 1),
+      .project-card:nth-child(4n + 2) { grid-column: 1 / -1; }
+      .project-media,
+      .project-card:nth-child(4n + 2) .project-media { aspect-ratio: 16 / 10; border-radius: 20px; }
+      .projects-grid { row-gap: 38px; }
+
+      .contact-panel { border-radius: 24px; }
+      .contact-panel::before { width: 75%; right: -28%; bottom: -30%; }
+      .contact-title { font-size: clamp(2.35rem, 13vw, 4.4rem); }
+      .contact-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .contact-link { justify-content: space-between; min-width: 0; padding-inline: 14px; }
     }
 
-    @media (max-width: 720px) {
-      .container {
-        width: min(calc(100% - 24px), var(--container));
-      }
+    @media (max-width: 480px) {
+      .brand { font-size: .84rem; }
+      .nav-links a { font-size: .72rem; }
+      .hero-actions { width: 100%; }
+      .button { flex: 1 1 auto; padding-inline: 16px; }
+      .service-description { font-size: .84rem; }
+      .project-description { max-width: 32ch; }
+      .contact-links { grid-template-columns: 1fr; }
+      .footer-row { align-items: flex-start; flex-direction: column; }
+      .draft-badge { right: 10px; bottom: 10px; left: 10px; justify-content: space-between; }
+    }
 
-      .nav {
-        min-height: unset;
-        padding: 14px 0;
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .nav-links {
-        width: 100%;
-        overflow-x: auto;
-        flex-wrap: nowrap;
-        padding-bottom: 2px;
-      }
-
-      .nav-links a {
-        white-space: nowrap;
-      }
-
-      .hero {
-        padding-top: 18px;
-      }
-
-      .hero-card,
-      .hero-side-card,
-      .service-card,
-      .case-card,
-      .contact-card {
-        border-radius: 24px;
-      }
-
-      .hero-card,
-      .hero-side-card {
-        padding: 22px 20px;
-      }
-
-      .service-card,
-      .case-card,
-      .contact-card {
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-
-      h1 {
-        font-size: clamp(2.95rem, 16vw, 4.4rem);
-        max-width: none;
-      }
-
-      .hero-actions {
-        width: 100%;
-        flex-direction: column;
-      }
-
-      .button {
-        width: 100%;
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .stat:last-child {
-        grid-column: span 2;
-      }
-
-      .section-head {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .section-head p {
-        max-width: none;
-      }
-
-      .services-grid,
-      .cases-grid,
-      .contacts-grid,
-      .contact-links,
-      .social-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .draft-badge {
-        right: 12px;
-        left: 12px;
-        bottom: 12px;
-        justify-content: center;
-      }
+    @media (pointer: coarse) {
+      .cursor-glow { display: none; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
       }
-
-      .page-bg,
       .reveal,
-      .nav-links a,
-      .button,
-      .chip,
-      .social-button {
-        transition: none !important;
-        transform: none !important;
-      }
+      .title-word { opacity: 1 !important; transform: none !important; }
+      .cursor-glow { display: none; }
     }
   </style>
 </head>
+
 <body>
-  <div class="page-bg" id="pageBg"></div>
+  <div class="ambient" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
 
   <header class="topbar" id="topbar">
-    <div class="container nav">
-      <a class="brand" href="#home" id="brandName"><span class="brand-dot"></span><span>youngchasy</span></a>
-      <nav class="nav-links">
-        <a href="#services">услуги</a>
-        <a href="#portfolio">портфолио</a>
-        <a href="#contact">контакты</a>
-      </nav>
+    <div class="container nav-shell">
+      <a class="brand" href="#home" aria-label="На главную">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span id="brandName">youngchasy</span>
+      </a>
+
+      <div class="nav-right">
+        <nav class="nav-links" aria-label="Основная навигация">
+          <a href="#services">направления</a>
+          <a href="#portfolio">работы</a>
+          <a href="#contact">контакты</a>
+        </nav>
+      </div>
     </div>
   </header>
 
   <main>
     <section class="hero" id="home">
-      <div class="container hero-grid">
-        <article class="hero-card reveal">
-          <div>
-            <h1 id="heroTitle"></h1>
-            <p class="hero-subtitle" id="heroSubtitle"></p>
+      <div class="hero-art" id="heroArt" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <h1 class="hero-title" id="heroTitle">
+          <span class="title-line"><span class="title-word">моё</span></span>
+          <span class="title-line"><span class="title-word">небольшое</span></span>
+          <span class="title-line"><span class="title-word">портфолио</span></span>
+        </h1>
+      </div>
+    </section>
+
+    <section class="hero-details" aria-label="Кратко о работе">
+      <div class="container">
+        <div class="hero-bottom reveal">
+          <div class="hero-copy">
             <div class="hero-actions">
-              <a class="button primary" href="#portfolio" id="heroPrimaryButton"></a>
-              <a class="button" href="#contact" id="heroSecondaryButton"></a>
+              <a class="button primary magnetic" href="#portfolio">
+                <span id="heroPrimaryButton">Смотреть работы</span>
+                <span class="arrow" aria-hidden="true">↘</span>
+              </a>
+              <a class="button secondary magnetic" href="#contact">
+                <span id="heroSecondaryButton">Связаться</span>
+                <span class="arrow" aria-hidden="true">↗</span>
+              </a>
             </div>
           </div>
-        </article>
-
-        <aside class="hero-side-card reveal">
-          <div>
-            <h2 class="aside-title" id="asideTitle"></h2>
-            <p class="aside-text" id="asideText"></p>
-          </div>
-
-          <div class="stats" id="stats"></div>
-
-          <div class="workflow-block">
-            <h3 id="workflowTitle"></h3>
-            <ul class="mini-list" id="workflowList"></ul>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="services">
-      <div class="container">
-        <div class="section-head reveal">
-          <div>
-            <h2>основные направления</h2>
-          </div>
-          <p></p>
+          <div class="hero-stats" id="stats"></div>
         </div>
-        <div class="services-grid" id="servicesGrid"></div>
       </div>
     </section>
 
-    <section id="portfolio">
-      <div class="container">
-        <div class="section-head reveal">
-          <div>
-            <h2 id="portfolioSectionTitle"></h2>
-          </div>
-          <p id="portfolioSectionText"></p>
+    <section class="section" id="services">
+      <div class="container section-layout">
+        <div class="section-kicker reveal">
+          <strong>01</strong>
+          направления
         </div>
-
-        <div class="portfolio-controls reveal" id="portfolioControls"></div>
-        <div class="cases-grid" id="casesGrid"></div>
+        <div>
+          <h2 class="section-heading reveal">Что я делаю</h2>
+          <div class="services-list" id="servicesGrid"></div>
+        </div>
       </div>
     </section>
 
-    <section id="contact">
-      <div class="container contacts-grid">
-        <article class="contact-card reveal">
-          <h3 id="contactTitle"></h3>
-          <p class="muted" id="contactText"></p>
-          <div class="contact-links" id="contactButtons"></div>
-        </article>
+    <section class="section" id="portfolio">
+      <div class="container section-layout">
+        <div class="section-kicker reveal">
+          <strong>02</strong>
+          избранное
+        </div>
+        <div>
+          <div class="portfolio-head">
+            <h2 class="section-heading reveal" id="portfolioSectionTitle">Мои работы</h2>
+          </div>
+          <div class="filters reveal" id="portfolioControls" role="group" aria-label="Фильтр проектов"></div>
+          <div class="projects-grid" id="casesGrid"></div>
+        </div>
+      </div>
+    </section>
 
-        <article class="contact-card reveal">
-          <h3 id="socialTitle"></h3>
-          <div class="social-grid" id="socialLinks"></div>
-        </article>
+    <section class="section contact-section" id="contact">
+      <div class="container">
+        <div class="contact-panel reveal">
+          <div class="contact-kicker">
+            <span>03 — контакты</span>
+          </div>
+          <h2 class="contact-title" id="contactTitle">Есть идея?</h2>
+          <p class="contact-text" id="contactText"></p>
+          <div class="contact-links" id="contactLinks"></div>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer>
+  <footer class="footer">
     <div class="container footer-row">
-      <span id="footerName"></span>
-      <span id="footerText"></span>
+      <span><span class="footer-brand" id="footerName">youngchasy.site</span> <span id="footerText"></span></span>
+      <a class="back-to-top" href="#home">наверх <span aria-hidden="true">↑</span></a>
     </div>
   </footer>
 
   <div class="draft-badge" id="draftBadge">
-    <span>Включён предпросмотр черновика</span>
-    <a class="small-button" href="./editor.html">Открыть редактор</a>
+    <span>предпросмотр черновика</span>
+    <a href="./editor.html">редактор</a>
   </div>
 
   <script id="embeddedDefaultContent" type="application/json">{
   "brand": "youngchasy",
   "domain": "youngchasy.site",
   "backgroundImage": "/assets/images/hero-bg.svg",
-  "heroTitle": "Код.\nМузыка.\nДизайн.",
-  "heroSubtitle": "Минималистичное портфолио без перегруза.",
-  "heroPrimaryButton": "Смотреть работы",
-  "heroSecondaryButton": "Связаться",
+  "heroTitle": "моё\nнебольшое\nпортфолио",
+  "heroSubtitle": "создаю разные проекты различной сложности",
+  "heroPrimaryButton": "работы",
+  "heroSecondaryButton": "связь",
   "asideTitle": "Кратко",
-  "asideText": "Делаю код, биты, визуал и цифровые проекты без лишнего шума.",
+  "asideText": "Код, звук и визуальные решения без лишнего шума.",
   "stats": [
-    {
-      "value": "8+",
-      "label": "лет в музыке"
-    },
-    {
-      "value": "неск.",
-      "label": "лет в дизайне"
-    },
-    {
-      "value": "24/7",
-      "label": "digital mindset"
-    }
+    { "value": "8+", "label": "лет в музыке" },
+    { "value": "4", "label": "направления" }
   ],
   "workflowTitle": "Формат работы",
-  "workflow": [
-    "Коротко обсуждаем задачу",
-    "Собираем материалы",
-    "Делаю чистый результат",
-    "Доводим до финала"
-  ],
+  "workflow": ["Обсуждение", "Материалы", "Реализация", "Финал"],
   "services": [
-    {
-      "icon": "⌘",
-      "title": "код",
-      "description": "питон, джава, хтмл",
-      "points": [
-        "боты и backend-логика",
-        "VPN/прокси-сценарии",
-        "парсинг, API, автоматизация",
-        "простые админ-панели и лендинги"
-      ]
-    },
-    {
-      "icon": "♫",
-      "title": "музыка",
-      "description": "биты/сведение/мастеринг",
-      "points": [
-        "8 лет в FL Studio/Ableton",
-        "большой опыт в сведении и мастеринге"
-      ]
-    },
-    {
-      "icon": "◻",
-      "title": "дизайн",
-      "description": "визуал для личных и коммерческих задач",
-      "points": [
-        "логотипы и айдентика",
-        "мерч и визуальные материалы",
-        "коммерческие предложения",
-        "сайты/презентации и т.д."
-      ]
-    },
-    {
-      "icon": "✦",
-      "title": "и многое другое",
-      "description": "например: оформление дипломов, к/р, рефератов и т.д.",
-      "points": [
-        "структурирование текста",
-        "учебные и деловые материалы",
-        "презентации и визуальная подача",
-        "подготовка к сдаче или защите"
-      ]
-    }
+    { "icon": "⌘", "title": "код", "description": "Сайты, боты и автоматизация.", "points": [] },
+    { "icon": "♫", "title": "музыка", "description": "Биты, сведение и мастеринг.", "points": [] },
+    { "icon": "◻", "title": "дизайн", "description": "Айдентика, веб и графика.", "points": [] },
+    { "icon": "✦", "title": "оформление", "description": "Презентации и digital-материалы.", "points": [] }
   ],
-  "portfolioSectionTitle": "мои работы",
-  "portfolioSectionText": "",
-  "portfolioCategories": [
-    "все",
-    "Программирование",
-    "Музыка",
-    "Дизайн",
-    "Оформление"
-  ],
+  "portfolioSectionTitle": "Мои работы",
+  "portfolioSectionText": "Несколько проектов из разных направлений.",
+  "portfolioCategories": ["все", "Программирование", "Музыка", "Дизайн", "Оформление"],
   "portfolioItems": [
-    {
-      "title": "VPN bot system",
-      "category": "Программирование",
-      "description": "Карточка проекта на Python.",
-      "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
-      "audio": "",
-      "link": "#",
-      "linkText": "Открыть проект"
-    },
-    {
-      "title": "Beat preview #01",
-      "category": "Музыка",
-      "description": "Карточка с аудио и коротким описанием.",
-      "image": "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=80",
-      "audio": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-      "link": "#",
-      "linkText": "Подробнее"
-    },
-    {
-      "title": "Branding / logo concept",
-      "category": "Дизайн",
-      "description": "Логотип, мерч, презентация или КП.",
-      "image": "https://images.unsplash.com/photo-1523726491678-bf852e717f6a?auto=format&fit=crop&w=1200&q=80",
-      "audio": "",
-      "link": "#",
-      "linkText": "Смотреть кейс"
-    },
-    {
-      "title": "Presentation design",
-      "category": "Оформление",
-      "description": "Оформление проектов и презентаций.",
-      "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
-      "audio": "",
-      "link": "#",
-      "linkText": "Открыть пример"
-    }
+    { "title": "VPN bot system", "category": "Программирование", "description": "Python-система для автоматизации доступа.", "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=85", "audio": "", "link": "#", "linkText": "Открыть проект" },
+    { "title": "Beat preview #01", "category": "Музыка", "description": "Авторский бит и работа со звуком.", "image": "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1400&q=85", "audio": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "link": "#", "linkText": "Подробнее" },
+    { "title": "Brand identity", "category": "Дизайн", "description": "Концепция логотипа и визуальной системы.", "image": "https://images.unsplash.com/photo-1523726491678-bf852e717f6a?auto=format&fit=crop&w=1400&q=85", "audio": "", "link": "#", "linkText": "Смотреть кейс" },
+    { "title": "Presentation design", "category": "Оформление", "description": "Чистая подача сложного материала.", "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=85", "audio": "", "link": "#", "linkText": "Открыть пример" }
   ],
-  "contactTitle": "связь со мной",
-  "contactText": "напиши куда удобно",
+  "contactTitle": "Есть идея?",
+  "contactText": "Напиши — обсудим задачу и найдём точный формат.",
   "socialTitle": "Соцсети и ссылки",
   "contactButtons": [
-    {
-      "label": "тг",
-      "sublabel": "напиши в мой канал",
-      "href": "https://t.me/your_username",
-      "icon": "telegram"
-    },
-    {
-      "label": "вк",
-      "sublabel": "напиши в личку",
-      "href": "https://vk.com/your_username",
-      "icon": "vk"
-    },
-    {
-      "label": "инста",
-      "sublabel": "напиши в директ",
-      "href": "https://instagram.com/your_username",
-      "icon": "instagram"
-    }
+    { "label": "Telegram", "sublabel": "написать", "href": "https://t.me/your_username", "icon": "telegram" },
+    { "label": "VK", "sublabel": "написать", "href": "https://vk.com/your_username", "icon": "vk" },
+    { "label": "Instagram", "sublabel": "direct", "href": "https://instagram.com/your_username", "icon": "instagram" }
   ],
   "socialLinks": [
-    {
-      "label": "битстарс",
-      "sublabel": "биты/купить",
-      "href": "https://beatstars.com/your_username",
-      "icon": "beatstars"
-    },
-    {
-      "label": "саундклауд",
-      "sublabel": "экспериментальное творчество",
-      "href": "https://soundcloud.com/your_username",
-      "icon": "soundcloud"
-    },
-    {
-      "label": "ютуб",
-      "sublabel": "тоже биты",
-      "href": "https://youtube.com/@your_username",
-      "icon": "youtube"
-    },
-    {
-      "label": "твич",
-      "sublabel": "стримы игр и кукапы",
-      "href": "https://twitch.tv/your_username",
-      "icon": "twitch"
-    },
-    {
-      "label": "гитхаб",
-      "sublabel": "програмистов кружок",
-      "href": "https://github.com/your_username",
-      "icon": "github"
-    }
+    { "label": "BeatStars", "sublabel": "биты", "href": "https://beatstars.com/your_username", "icon": "beatstars" },
+    { "label": "SoundCloud", "sublabel": "музыка", "href": "https://soundcloud.com/your_username", "icon": "soundcloud" },
+    { "label": "YouTube", "sublabel": "видео", "href": "https://youtube.com/@your_username", "icon": "youtube" },
+    { "label": "Twitch", "sublabel": "стримы", "href": "https://twitch.tv/your_username", "icon": "twitch" },
+    { "label": "GitHub", "sublabel": "код", "href": "https://github.com/your_username", "icon": "github" }
   ],
-  "footerText": "youngchasy © 2026"
+  "footerText": "© 2026"
 }</script>
+
   <script>
     const STORAGE_KEY = "youngchasy-portfolio-draft";
     const DRAFT_PARAM = new URLSearchParams(window.location.search).get("draft");
-    const pageBg = document.getElementById("pageBg");
-    const topbar = document.getElementById("topbar");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ALL_CATEGORY = "__all__";
 
     const icons = {
-      telegram: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 3.5 2.9 10.7c-.9.4-.9 1.6.1 1.9l4.5 1.4 1.7 5c.3.9 1.5 1 2 .2l2.5-3.4 4.7 3.6c.7.5 1.6.1 1.7-.8l1.8-13.1c.2-1.2-1-2.1-2.1-1.7Z"/><path d="m7.8 13.7 10.7-8.2"/></svg>`,
-      vk: `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3.5 5.8c.1 5.8 3 12.4 8.3 12.4h.3v-3.7c2 .2 3.4 1.5 4 3.7H19c-.8-2.8-2.7-4.4-3.9-5 .9-.6 2.7-2 3-4.5h-2.7c-.5 2-2.2 3.4-3.7 3.6V5.8h-2.7v6.8c-1.5-.4-3.4-1.9-3.5-6.8H3.5Z"/></svg>`,
-      instagram: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>`,
-      beatstars: `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.8 3.8 7.2v9.6L12 21.2l8.2-4.4V7.2L12 2.8Zm0 2.2 5.9 3.1L12 11.2 6.1 8.1 12 5Zm-6 5 4.9 2.6v5.5L6 15.5V10Zm7 8.1v-5.5l4.9-2.6v5.5L13 18.1Z"/></svg>`,
-      soundcloud: `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M9.3 9.4a4.3 4.3 0 0 1 8.1 1.8A3.3 3.3 0 1 1 18 18H6.1a2.6 2.6 0 0 1-.4-5.2 3.9 3.9 0 0 1 3.6-3.4Z"/></svg>`,
-      youtube: `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M21.2 7.3c-.2-.9-.9-1.6-1.8-1.8C17.8 5 12 5 12 5s-5.8 0-7.4.5c-.9.2-1.6.9-1.8 1.8C2.3 8.9 2.3 12 2.3 12s0 3.1.5 4.7c.2.9.9 1.6 1.8 1.8 1.6.5 7.4.5 7.4.5s5.8 0 7.4-.5c.9-.2 1.6-.9 1.8-1.8.5-1.6.5-4.7.5-4.7s0-3.1-.5-4.7ZM10.2 15.7V8.3l6 3.7-6 3.7Z"/></svg>`,
-      twitch: `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M5 3h15v10.3l-4 4h-3.2L10 20H7v-2.7H5V3Zm2.2 2.2v9.8h3.4v2l2-2h3l2.2-2.2V5.2H7.2Zm6 2h2v4h-2v-4Zm-4 0h2v4h-2v-4Z"/></svg>`,
-      github: `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.8a9.2 9.2 0 0 0-2.9 17.9c.5.1.7-.2.7-.5v-1.8c-3 .6-3.6-1.3-3.6-1.3-.5-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.6 1 1.6 1 .9 1.5 2.5 1.1 3.1.8.1-.7.4-1.1.7-1.4-2.4-.3-4.9-1.2-4.9-5.2 0-1.1.4-2.1 1-2.8-.1-.3-.4-1.4.1-2.8 0 0 .8-.3 2.9 1.1a9.9 9.9 0 0 1 5.2 0c2-1.4 2.8-1.1 2.8-1.1.6 1.4.3 2.5.2 2.8.7.8 1 1.7 1 2.8 0 4-2.5 4.9-4.9 5.2.4.3.8 1 .8 2v2.9c0 .3.2.6.7.5A9.2 9.2 0 0 0 12 2.8Z"/></svg>`
+      telegram: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 3.5 2.9 10.7c-.9.4-.9 1.6.1 1.9l4.5 1.4 1.7 5c.3.9 1.5 1 2 .2l2.5-3.4 4.7 3.6c.7.5 1.6.1 1.7-.8l1.8-13.1c.2-1.2-1-2.1-2.1-1.7Z"/><path d="m7.8 13.7 10.7-8.2"/></svg>`,
+      vk: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.5 5.8c.1 5.8 3 12.4 8.3 12.4h.3v-3.7c2 .2 3.4 1.5 4 3.7H19c-.8-2.8-2.7-4.4-3.9-5 .9-.6 2.7-2 3-4.5h-2.7c-.5 2-2.2 3.4-3.7 3.6V5.8h-2.7v6.8c-1.5-.4-3.4-1.9-3.5-6.8H3.5Z"/></svg>`,
+      instagram: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>`,
+      beatstars: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8 3.8 7.2v9.6L12 21.2l8.2-4.4V7.2L12 2.8Zm0 2.2 5.9 3.1L12 11.2 6.1 8.1 12 5Zm-6 5 4.9 2.6v5.5L6 15.5V10Zm7 8.1v-5.5l4.9-2.6v5.5L13 18.1Z"/></svg>`,
+      soundcloud: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.3 9.4a4.3 4.3 0 0 1 8.1 1.8A3.3 3.3 0 1 1 18 18H6.1a2.6 2.6 0 0 1-.4-5.2 3.9 3.9 0 0 1 3.6-3.4Z"/></svg>`,
+      youtube: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.2 7.3c-.2-.9-.9-1.6-1.8-1.8C17.8 5 12 5s-5.8 0-7.4.5c-.9.2-1.6.9-1.8 1.8C2.3 8.9 2.3 12 2.3 12s0 3.1.5 4.7c.2.9.9 1.6 1.8 1.8 1.6.5 7.4.5 7.4.5s5.8 0 7.4-.5c.9-.2 1.6-.9 1.8-1.8.5-1.6.5-4.7.5-4.7s0-3.1-.5-4.7ZM10.2 15.7V8.3l6 3.7-6 3.7Z"/></svg>`,
+      twitch: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3h15v10.3l-4 4h-3.2L10 20H7v-2.7H5V3Zm2.2 2.2v9.8h3.4v2l2-2h3l2.2-2.2V5.2H7.2Zm6 2h2v4h-2v-4Zm-4 0h2v4h-2v-4Z"/></svg>`,
+      github: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8a9.2 9.2 0 0 0-2.9 17.9c.5.1.7-.2.7-.5v-1.8c-3 .6-3.6-1.3-3.6-1.3-.5-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.6 1 1.6 1 .9 1.5 2.5 1.1 3.1.8.1-.7.4-1.1.7-1.4-2.4-.3-4.9-1.2-4.9-5.2 0-1.1.4-2.1 1-2.8-.1-.3-.4-1.4.1-2.8 0 0 .8-.3 2.9 1.1a9.9 9.9 0 0 1 5.2 0c2-1.4 2.8-1.1 2.8-1.1.6 1.4.3 2.5.2 2.8.7.8 1 1.7 1 2.8 0 4-2.5 4.9-4.9 5.2.4.3.8 1 .8 2v2.9c0 .3.2.6.7.5A9.2 9.2 0 0 0 12 2.8Z"/></svg>`
     };
+
+    let siteData = null;
+    let activeCategory = ALL_CATEGORY;
+    let revealObserver = null;
+
+    function escapeHtml(value = "") {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function safeUrl(value = "#") {
+      const url = String(value || "#").trim();
+      return /^(https?:\/\/|mailto:|tel:|#|\.\/|\/)/i.test(url) ? escapeHtml(url) : "#";
+    }
 
     function getEmbeddedDefault() {
       return JSON.parse(document.getElementById("embeddedDefaultContent").textContent);
@@ -1047,7 +1261,7 @@
           const draft = localStorage.getItem(STORAGE_KEY);
           if (draft) {
             document.getElementById("draftBadge").classList.add("visible");
-            return JSON.parse(draft);
+            return { ...embedded, ...JSON.parse(draft) };
           }
         } catch (error) {
           console.warn("Draft load error:", error);
@@ -1057,180 +1271,311 @@
       try {
         const response = await fetch("./content.json", { cache: "no-store" });
         if (!response.ok) throw new Error("content.json not found");
-        return await response.json();
+        return { ...embedded, ...await response.json() };
       } catch (error) {
-        console.warn("Using embedded content fallback:", error);
         return embedded;
       }
     }
 
-    function fillText(id, value) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = value || "";
+    function fillText(id, value, fallback = "") {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value || fallback;
     }
 
-    function renderContacts(container, items) {
-      container.innerHTML = (items || []).map(item => `
-        <a class="social-button" href="${item.href || '#'}" target="_blank" rel="noreferrer">
-          <span class="social-button-main">
-            <span class="social-icon">${icons[item.icon] || ""}</span>
-            <span class="social-labels">
-              <span class="social-label">${item.label || ""}</span>
-              <span class="social-sub">${item.sublabel || ""}</span>
-            </span>
-          </span>
-          <span class="social-arrow">↗</span>
-        </a>
+    function fillHeroTitle(value) {
+      const title = document.getElementById("heroTitle");
+      const lines = String(value || "Код.\nМузыка.\nДизайн.")
+        .split("\n")
+        .map(line => line.trim())
+        .filter(Boolean);
+
+      title.innerHTML = lines.map((line, index) => `
+        <span class="title-line">
+          <span class="title-word">${escapeHtml(line)}</span>
+        </span>
       `).join("");
     }
 
-    function renderServices(data) {
-      const servicesGrid = document.getElementById("servicesGrid");
-      servicesGrid.innerHTML = (data.services || []).map(service => `
-        <article class="service-card reveal">
-          <div class="service-top">
-            <div>
-              <h3>${service.title || ""}</h3>
-              <p class="muted">${service.description || ""}</p>
-            </div>
-            <div class="service-icon">${service.icon || "•"}</div>
-          </div>
-          <ul class="service-list">
-            ${(service.points || []).map(point => `<li>${point}</li>`).join("")}
-          </ul>
+    function renderStats(items = []) {
+      const stats = items.slice(0, 2);
+      document.getElementById("stats").innerHTML = stats.map((item, index) => `
+        <div class="stat reveal" style="--delay:${440 + index * 80}ms">
+          <strong>${escapeHtml(item.value)}</strong>
+          <span>${escapeHtml(item.label)}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderServices(items = []) {
+      document.getElementById("servicesGrid").innerHTML = items.map((service, index) => `
+        <article class="service-row reveal" style="--delay:${index * 60}ms">
+          <span class="service-index">${String(index + 1).padStart(2, "0")}</span>
+          <h3 class="service-title">${escapeHtml(service.title)}</h3>
+          <p class="service-description">${escapeHtml(service.description)}</p>
+          <span class="service-icon" aria-hidden="true">${escapeHtml(service.icon || "·")}</span>
         </article>
       `).join("");
     }
 
-    let activeCategory = "Все";
-    let siteData = null;
+    function isAllCategory(value) {
+      return /^(все|all)$/i.test(String(value || "").trim());
+    }
+
+    function getCategories() {
+      const raw = Array.isArray(siteData.portfolioCategories) ? siteData.portfolioCategories : [];
+      const categories = raw.map(label => ({
+        label: String(label),
+        value: isAllCategory(label) ? ALL_CATEGORY : String(label)
+      }));
+
+      if (!categories.some(item => item.value === ALL_CATEGORY)) {
+        categories.unshift({ label: "все", value: ALL_CATEGORY });
+      }
+
+      return categories.filter((item, index, list) =>
+        list.findIndex(candidate => candidate.value.toLowerCase() === item.value.toLowerCase()) === index
+      );
+    }
 
     function renderPortfolioControls() {
-      const portfolioControls = document.getElementById("portfolioControls");
-      portfolioControls.innerHTML = (siteData.portfolioCategories || []).map(category => `
-        <button class="chip ${category === activeCategory ? "active" : ""}" data-category="${category}">
-          ${category}
-        </button>
+      const controls = document.getElementById("portfolioControls");
+      const categories = getCategories();
+
+      controls.innerHTML = categories.map((category, index) => `
+        <button
+          class="filter-button ${category.value === activeCategory ? "active" : ""}"
+          type="button"
+          data-index="${index}"
+          aria-pressed="${category.value === activeCategory}"
+        >${escapeHtml(category.label)}</button>
       `).join("");
 
-      portfolioControls.querySelectorAll(".chip").forEach(button => {
+      controls.querySelectorAll("button").forEach(button => {
         button.addEventListener("click", () => {
-          activeCategory = button.dataset.category;
+          activeCategory = categories[Number(button.dataset.index)].value;
           renderPortfolioControls();
           renderPortfolioItems();
         });
       });
     }
 
+    function projectInitials(title = "") {
+      return String(title).split(/\s+/).filter(Boolean).slice(0, 2).map(word => word[0]).join("");
+    }
+
     function renderPortfolioItems() {
-      const casesGrid = document.getElementById("casesGrid");
-      const allItems = siteData.portfolioItems || [];
-      const items = activeCategory === "Все" ? allItems : allItems.filter(item => item.category === activeCategory);
+      const grid = document.getElementById("casesGrid");
+      const allItems = Array.isArray(siteData.portfolioItems) ? siteData.portfolioItems : [];
+      const items = activeCategory === ALL_CATEGORY
+        ? allItems
+        : allItems.filter(item => String(item.category).toLowerCase() === activeCategory.toLowerCase());
 
-      casesGrid.innerHTML = items.map(item => `
-        <article class="case-card reveal">
-          <div class="case-preview">
-            ${item.image ? `<img src="${item.image}" alt="${item.title || ""}" loading="lazy" />` : `<span>Без превью</span>`}
-          </div>
-          <div class="case-meta">
-            <div>
-              <div class="case-title">${item.title || ""}</div>
-              <div class="case-category">${item.category || ""}</div>
+      if (!items.length) {
+        grid.innerHTML = `<p class="empty-state reveal">В этой категории пока нет работ.</p>`;
+        observeReveal();
+        return;
+      }
+
+      grid.innerHTML = items.map((item, index) => {
+        const hasLink = item.link && item.link !== "#";
+        const arrow = hasLink
+          ? `<a class="project-arrow" href="${safeUrl(item.link)}" target="_blank" rel="noreferrer" aria-label="${escapeHtml(item.linkText || "Открыть проект")}">↗</a>`
+          : `<span class="project-arrow" aria-hidden="true">↗</span>`;
+        const media = item.image
+          ? `<img src="${safeUrl(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy" />`
+          : `<span class="project-fallback">${escapeHtml(projectInitials(item.title))}</span>`;
+        const audio = item.audio ? `
+          <button class="audio-button" type="button" data-audio-id="audio-${index}">
+            <span class="audio-icon" aria-hidden="true">▶</span>
+            <span class="audio-label">Слушать</span>
+          </button>
+          <audio id="audio-${index}" preload="none" src="${safeUrl(item.audio)}"></audio>
+        ` : "";
+
+        return `
+          <article class="project-card reveal" style="--delay:${Math.min(index * 70, 280)}ms">
+            <div class="project-media">
+              ${media}
+              <span class="project-number">${String(index + 1).padStart(2, "0")}</span>
+              <span class="project-category">${escapeHtml(item.category)}</span>
             </div>
-          </div>
-          <p class="muted">${item.description || ""}</p>
-          ${item.audio ? `<audio class="case-audio" controls preload="none" src="${item.audio}"></audio>` : ""}
-          ${item.link ? `<a class="case-link" href="${item.link}" target="_blank" rel="noreferrer">${item.linkText || "Открыть"}</a>` : ""}
-        </article>
-      `).join("");
+            <div class="project-meta">
+              <div>
+                <h3 class="project-title">${escapeHtml(item.title)}</h3>
+                <p class="project-description">${escapeHtml(item.description)}</p>
+                ${audio}
+              </div>
+              ${arrow}
+            </div>
+          </article>
+        `;
+      }).join("");
 
+      grid.querySelectorAll(".project-media img").forEach(image => {
+        image.addEventListener("error", () => image.remove(), { once: true });
+      });
+
+      setupAudioPlayers();
       observeReveal();
+    }
+
+    function setupAudioPlayers() {
+      document.querySelectorAll(".audio-button").forEach(button => {
+        const audio = document.getElementById(button.dataset.audioId);
+        const label = button.querySelector(".audio-label");
+        const icon = button.querySelector(".audio-icon");
+        if (!audio) return;
+
+        const setState = playing => {
+          button.classList.toggle("playing", playing);
+          label.textContent = playing ? "Пауза" : "Слушать";
+          icon.textContent = playing ? "Ⅱ" : "▶";
+        };
+
+        button.addEventListener("click", async () => {
+          document.querySelectorAll("audio").forEach(other => {
+            if (other !== audio) other.pause();
+          });
+
+          if (audio.paused) {
+            try { await audio.play(); } catch (error) { setState(false); }
+          } else {
+            audio.pause();
+          }
+        });
+
+        audio.addEventListener("play", () => setState(true));
+        audio.addEventListener("pause", () => setState(false));
+        audio.addEventListener("ended", () => setState(false));
+      });
+    }
+
+    function renderContacts(primary = [], social = []) {
+      const items = [...primary, ...social];
+      document.getElementById("contactLinks").innerHTML = items.map(item => `
+        <a class="contact-link" href="${safeUrl(item.href)}" target="_blank" rel="noreferrer">
+          ${icons[item.icon] || ""}
+          <span>${escapeHtml(item.label)}</span>
+          <span class="link-arrow" aria-hidden="true">↗</span>
+        </a>
+      `).join("");
     }
 
     function observeReveal() {
       const elements = document.querySelectorAll(".reveal:not(.visible)");
       if (!elements.length) return;
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.12 });
+      if (reduceMotion || !("IntersectionObserver" in window)) {
+        elements.forEach(element => element.classList.add("visible"));
+        return;
+      }
 
-      elements.forEach(el => observer.observe(el));
+      if (!revealObserver) {
+        revealObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: .12, rootMargin: "0px 0px -5%" });
+      }
+
+      elements.forEach(element => revealObserver.observe(element));
     }
 
     function setupTopbar() {
-      const handleScroll = () => {
-        topbar.classList.toggle("scrolled", window.scrollY > 16);
-      };
-      handleScroll();
-      window.addEventListener("scroll", handleScroll, { passive: true });
+      const topbar = document.getElementById("topbar");
+      const update = () => topbar.classList.toggle("scrolled", window.scrollY > 18);
+      update();
+      window.addEventListener("scroll", update, { passive: true });
     }
 
-    function setupParallax() {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || window.innerWidth <= 720) return;
+    function setupPointerEffects() {
+      if (reduceMotion || !window.matchMedia("(pointer: fine)").matches) return;
 
+      let frame = null;
+      window.addEventListener("pointermove", event => {
+        document.body.classList.add("pointer-active");
+        if (frame) cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          document.documentElement.style.setProperty("--pointer-x", `${event.clientX}px`);
+          document.documentElement.style.setProperty("--pointer-y", `${event.clientY}px`);
+        });
+      }, { passive: true });
+
+      document.querySelectorAll(".magnetic").forEach(element => {
+        element.addEventListener("pointermove", event => {
+          const rect = element.getBoundingClientRect();
+          const x = (event.clientX - rect.left - rect.width / 2) * .12;
+          const y = (event.clientY - rect.top - rect.height / 2) * .18;
+          element.style.setProperty("--mx", `${x}px`);
+          element.style.setProperty("--my", `${y}px`);
+        });
+        element.addEventListener("pointerleave", () => {
+          element.style.setProperty("--mx", "0px");
+          element.style.setProperty("--my", "0px");
+        });
+      });
+    }
+
+    function setupHeroMotion() {
+      if (reduceMotion) return;
+      const art = document.getElementById("heroArt");
       let ticking = false;
+
       const update = () => {
-        const y = window.scrollY * -0.08;
-        pageBg.style.transform = `translate3d(0, ${y}px, 0) scale(1.08)`;
+        art.style.setProperty("--hero-shift", `${window.scrollY * .1}px`);
         ticking = false;
       };
 
-      const onScroll = () => {
+      window.addEventListener("scroll", () => {
         if (!ticking) {
           requestAnimationFrame(update);
           ticking = true;
         }
-      };
+      }, { passive: true });
+    }
 
-      update();
-      window.addEventListener("scroll", onScroll, { passive: true });
+    function setHeroImage(value) {
+      const image = String(value || "").trim();
+      if (!/^(https?:\/\/|\.\/|\/)/i.test(image)) return;
+      const safeImage = image.replace(/["'()\\]/g, "");
+      document.documentElement.style.setProperty("--hero-image", `url("${safeImage}")`);
     }
 
     function renderAll(data) {
       siteData = data;
-      document.documentElement.style.setProperty("--bg-image", `url('${data.backgroundImage || "/assets/images/hero-bg.svg"}')`);
 
-      document.querySelector("#brandName span:last-child").textContent = data.brand || "youngchasy";
-      fillText("footerName", data.domain || "youngchasy.site");
-      fillText("footerText", data.footerText || "");
-      fillText("heroTitle", data.heroTitle);
+      fillText("brandName", data.brand, "youngchasy");
+      fillText("footerName", data.domain, "youngchasy.site");
+      fillText("footerText", data.footerText);
       fillText("heroSubtitle", data.heroSubtitle);
-      fillText("heroPrimaryButton", data.heroPrimaryButton || "Смотреть работы");
-      fillText("heroSecondaryButton", data.heroSecondaryButton || "Связаться");
-      fillText("asideTitle", data.asideTitle || "Кратко");
-      fillText("asideText", data.asideText || "");
-      fillText("workflowTitle", data.workflowTitle || "");
-      fillText("portfolioSectionTitle", data.portfolioSectionTitle || "");
-      fillText("portfolioSectionText", data.portfolioSectionText || "");
-      fillText("contactTitle", data.contactTitle || "");
-      fillText("contactText", data.contactText || "");
-      fillText("socialTitle", data.socialTitle || "");
+      fillText("heroPrimaryButton", data.heroPrimaryButton, "Смотреть работы");
+      fillText("heroSecondaryButton", data.heroSecondaryButton, "Связаться");
+      fillText("portfolioSectionTitle", data.portfolioSectionTitle, "Мои работы");
+      fillText("portfolioSectionText", data.portfolioSectionText);
+      fillText("contactTitle", data.contactTitle, "Есть идея?");
+      fillText("contactText", data.contactText, "Напиши — обсудим задачу и найдём точный формат.");
 
-      document.getElementById("stats").innerHTML = (data.stats || []).map(item => `
-        <div class="stat">
-          <strong>${item.value || ""}</strong>
-          <span>${item.label || ""}</span>
-        </div>
-      `).join("");
-
-      document.getElementById("workflowList").innerHTML = (data.workflow || []).map(item => `<li>${item}</li>`).join("");
-
-      renderServices(data);
-      renderContacts(document.getElementById("contactButtons"), data.contactButtons || []);
-      renderContacts(document.getElementById("socialLinks"), data.socialLinks || []);
+      document.title = `${data.brand || "youngchasy"} — портфолио`;
+      fillHeroTitle(data.heroTitle);
+      renderStats(data.stats || []);
+      renderServices(data.services || []);
+      renderContacts(data.contactButtons || [], data.socialLinks || []);
       renderPortfolioControls();
       renderPortfolioItems();
-      observeReveal();
-      setupTopbar();
-      setupParallax();
+      setHeroImage(data.backgroundImage);
+
+      requestAnimationFrame(() => {
+        document.body.classList.add("ready");
+        observeReveal();
+      });
     }
 
+    setupTopbar();
+    setupPointerEffects();
+    setupHeroMotion();
     loadContent().then(renderAll);
   </script>
 </body>
