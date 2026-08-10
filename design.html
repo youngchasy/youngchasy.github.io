@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>youngchasy — дизайн-портфолио</title>
-  <meta name="description" content="Дизайн-портфолио Ильи Ишукова: айдентика, мерч, презентации и digital-дизайн.">
+  <meta name="description" content="Дизайн-портфолио: айдентика, мерч, презентации и digital-дизайн.">
   <meta name="theme-color" content="#09070f">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -750,10 +750,7 @@ body.design-page.lock { overflow: hidden; }
   padding-bottom: clamp(28px, 3vw, 40px);
 }
 .design-hero-main {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(230px, 310px);
-  gap: clamp(28px, 5vw, 72px);
-  align-items: end;
+  display: block;
 }
 .design-kicker {
   margin-bottom: 22px;
@@ -765,50 +762,11 @@ body.design-page.lock { overflow: hidden; }
 }
 .design-title {
   font-size: clamp(3rem, 7vw, 7rem);
-  max-width: 9.6ch;
+  max-width: none;
 }
 .design-title .title-line:nth-child(2) {
   margin-left: clamp(0px, 2vw, 30px);
   color: #d9c1ff;
-}
-.design-portrait {
-  padding: 9px;
-  overflow: hidden;
-  border-radius: 30px;
-  align-self: stretch;
-}
-.design-portrait-frame {
-  position: relative;
-  height: 100%;
-  min-height: 330px;
-  overflow: hidden;
-  border-radius: 22px;
-  background:
-    radial-gradient(circle at 72% 22%, rgba(182, 111, 255, .24), transparent 38%),
-    rgba(12, 8, 18, .72);
-}
-.design-portrait-frame img {
-  width: 100%;
-  height: 100%;
-  min-height: 330px;
-  object-fit: cover;
-  filter: saturate(.75) contrast(1.03) brightness(.82);
-}
-.design-portrait-label {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 14px;
-  z-index: 2;
-  padding: 11px 13px;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  border-radius: 16px;
-  color: rgba(255,255,255,.8);
-  font-size: .62rem;
-  letter-spacing: .08em;
-  text-transform: uppercase;
 }
 .design-hero-foot {
   align-items: end;
@@ -1274,9 +1232,6 @@ body.design-page.lock { overflow: hidden; }
 @media (max-width: 760px) {
   .design-page .nav-links .nav-back { display: none; }
   .design-hero-main { grid-template-columns: 1fr; }
-  .design-portrait { max-width: 360px; }
-  .design-portrait-frame,
-  .design-portrait-frame img { min-height: 390px; }
   .design-title { max-width: none; }
   .design-section-head { align-items: flex-start; flex-direction: column; }
   .feature-grid {
@@ -1313,8 +1268,6 @@ body.design-page.lock { overflow: hidden; }
 }
 
 @media (max-width: 480px) {
-  .design-portrait-frame,
-  .design-portrait-frame img { min-height: 330px; }
   .design-hero-foot .hero-side { width: 100%; }
   .design-tags { gap: 6px; }
   .about-box { min-height: 0; }
@@ -1374,21 +1327,10 @@ body.design-page.lock { overflow: hidden; }
         <div class="hero-window design-hero-window liquid-surface liquid-panel">
           <div class="design-hero-main">
             <div>
-              <div class="section-kicker design-kicker reveal"><strong>design</strong>портфолио / 2024—2026</div>
               <h1 class="hero-title design-title">
                 <span class="title-line"><span class="title-word">дизайн</span></span>
                 <span class="title-line"><span class="title-word">портфолио</span></span>
               </h1>
-            </div>
-
-            <div class="design-portrait liquid-surface liquid-panel reveal">
-              <div class="design-portrait-frame">
-                <img id="portrait" alt="Илья Ишуков">
-                <div class="design-portrait-label liquid-surface liquid-pill">
-                  <span>Илья Ишуков</span>
-                  <span>KRSK · +07</span>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -1405,14 +1347,6 @@ body.design-page.lock { overflow: hidden; }
             </div>
 
             <div class="hero-side reveal">
-              <p class="hero-subtitle">Айдентика, мерч, презентации и графический дизайн для брендов, событий и коммуникационных проектов.</p>
-              <div class="design-tags">
-                <span class="design-tag">брендинг</span>
-                <span class="design-tag">мерч</span>
-                <span class="design-tag">презентации</span>
-                <span class="design-tag">digital</span>
-                <span class="design-tag">контент</span>
-              </div>
               <div class="hero-actions">
                 <a class="button primary" href="#work"><span>работы</span><span class="arrow" aria-hidden="true">↘</span></a>
                 <a class="button secondary liquid-surface liquid-pill" href="./index.html"><span>основной сайт</span><span class="arrow" aria-hidden="true">↗</span></a>
@@ -1429,7 +1363,6 @@ body.design-page.lock { overflow: hidden; }
         <div>
           <div class="design-section-head">
             <h2 class="section-heading reveal">Избранные проекты</h2>
-            <p class="design-section-copy reveal">Крупные кейсы, где дизайн работает как система: знак, носители, презентации и среда.</p>
           </div>
           <div class="feature-grid" id="featureGrid"></div>
         </div>
@@ -1442,7 +1375,6 @@ body.design-page.lock { overflow: hidden; }
         <div>
           <div class="design-section-head">
             <h2 class="section-heading reveal">Все работы</h2>
-            <p class="design-section-copy reveal">Открой карточку проекта, чтобы посмотреть весь набор макетов.</p>
           </div>
 
           <div class="index-tools reveal">
@@ -1461,39 +1393,14 @@ body.design-page.lock { overflow: hidden; }
       </div>
     </section>
 
-    <section class="section" id="about">
-      <div class="container section-layout">
-        <div class="section-kicker reveal"><strong>03</strong>подход</div>
-        <div class="about-grid">
-          <article class="about-box reveal liquid-surface liquid-panel">
-            <div class="section-kicker"><strong>design</strong>подход</div>
-            <h3>Смысл → система → визуал</h3>
-            <p>Собираю визуальные решения так, чтобы они были не отдельными красивыми картинками, а цельной коммуникацией — от первого экрана до физического носителя.</p>
-          </article>
-
-          <article class="about-box reveal liquid-surface liquid-panel">
-            <div class="section-kicker"><strong>archive</strong>в цифрах</div>
-            <h3>Design archive</h3>
-            <div class="statrow">
-              <div class="about-stat"><b id="statProjects">—</b><small>кейсов на странице</small></div>
-              <div class="about-stat"><b id="statImages">—</b><small>макетов в архиве</small></div>
-              <div class="about-stat"><b>3</b><small>направления: design / merch / content</small></div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <section class="section contact-section" id="contact">
       <div class="container">
         <div class="contact-panel reveal liquid-surface liquid-panel">
-          <div class="contact-kicker"><span>04 — контакты</span></div>
-          <h2 class="contact-title">Давайте сделаем что-то заметное.</h2>
-          <p class="contact-text">Айдентика, презентации, мерч и digital-материалы.</p>
+          <div class="contact-kicker"><span>03 — контакты</span></div>
+          <h2 class="contact-title">Давайте сделаем что-то красивое</h2>
           <div class="design-contact-links">
-            <a class="design-contact-link liquid-surface liquid-pill" href="mailto:ishukov.2004@mail.ru">ishukov.2004@mail.ru ↗</a>
-            <a class="design-contact-link liquid-surface liquid-pill" href="tel:+79333346668">+7 933 334-66-68</a>
-            <a class="design-contact-link liquid-surface liquid-pill" href="https://vk.com/youngchasy" target="_blank" rel="noopener">VK / youngchasy ↗</a>
+            <a class="design-contact-link liquid-surface liquid-pill" href="mailto:ishukov.2004@mail.ru">youngchasy@gmail.com ↗</a>
+            <a class="design-contact-link liquid-surface liquid-pill" href="https://t.me/youngchasy" target="_blank" rel="noopener">тг ↗</a>
           </div>
         </div>
       </div>
@@ -1530,12 +1437,13 @@ body.design-page.lock { overflow: hidden; }
 (() => {
   const D = window.PORTFOLIO_DATA;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const portrait = document.getElementById("portrait");
   const featureGrid = document.getElementById("featureGrid");
   const projectGrid = document.getElementById("projectGrid");
   const modal = document.getElementById("modal");
   const gallery = document.getElementById("gallery");
   const selectedIds = ["yarpiar", "liquid", "polyus"];
+
+  let observer;
 
   const esc = (value = "") => String(value)
     .replaceAll("&", "&amp;")
@@ -1544,12 +1452,9 @@ body.design-page.lock { overflow: hidden; }
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 
-  if (portrait && D.portrait) portrait.src = D.portrait;
 
   document.getElementById("heroProjects").textContent = D.projects.length;
   document.getElementById("heroImages").textContent = `${D.totalImages}+`;
-  document.getElementById("statProjects").textContent = D.projects.length;
-  document.getElementById("statImages").textContent = `${D.totalImages}+`;
 
   function openProject(id) {
     const p = D.projects.find(item => item.id === id);
@@ -1652,7 +1557,6 @@ body.design-page.lock { overflow: hidden; }
     if (event.key === "Escape" && modal.classList.contains("open")) closeProject();
   });
 
-  let observer;
   function observeReveals() {
     const elements = document.querySelectorAll(".reveal:not(.visible)");
     if (!elements.length) return;
